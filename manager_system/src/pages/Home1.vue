@@ -126,7 +126,7 @@
 
 <script>
 	import { bus } from '../bus.js'
-	import {formatTime} from '../js/formatTime';
+	import {formatTime} from '../js/publicFun';
 	import {updatePassword,selectAllUser} from '../js/api';
 	export default {
 		name: 'home',

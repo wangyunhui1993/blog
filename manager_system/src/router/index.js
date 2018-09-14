@@ -48,7 +48,7 @@
 						component: Nav,
 						menuShow: true,
 						children: [
-							{ path: '/blog_manager/query', component: BMquery, name: '文章查看', menuShow: true },
+							{ path: '/blog_manager/query', component: BMquery, name: '文章列表', menuShow: true },
 							{ path: '/blog_manager/edit', component: BMedit, name: '文章发表', menuShow: true },
 							{ path: '/blog_manager/detail', component: BMdetail, name: '文章详情', menuShow: true },
 						]

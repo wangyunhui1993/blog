@@ -88,12 +88,29 @@ module.exports = {
 			let sql='select article_id,article_name,article_time from article limit ' +(sqlParams.pageNum-1)*sqlParams.pageSize+','+sqlParams.pageSize;
 			connection.query(sql, function(err, result) {   //查询
 						if(result){
-							console.log(result);
-							// 以json形式，把操作结果返回给前台页面
-							let resInfo=Object.assign($err.code_0,{list:result});
-							res.json(resInfo);
-							// 释放连接 
-							connection.release();
+							connection.query('select found_rows()', function(err, result_count) {   //查询
+										if(result_count){
+											
+											console.log(result_count);
+											// 以json形式，把操作结果返回给前台页面
+											let resInfo=Object.assign($err.code_0,{list:result});
+											resInfo.total=result_count[0]['found_rows()'];
+											res.json(resInfo);
+											// 释放连接 
+											connection.release();
+										}else{
+											res.json(err);
+										}
+							});
+							
+							
+							
+// 							console.log(result);
+// 							// 以json形式，把操作结果返回给前台页面
+// 							let resInfo=Object.assign($err.code_0,{list:result});
+// 							res.json(resInfo);
+// 							// 释放连接 
+// 							connection.release();
 						}else{
 							res.json(err);
 						}
@@ -139,6 +156,7 @@ module.exports = {
 			});
 		});
 	},
+	
 
 
 };
