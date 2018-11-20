@@ -12,6 +12,9 @@ let session = require('express-session');
 
 var routes = require('./routes/index');
 
+var $err=require('./conf/errInfo.js');
+
+
 var app = express();
 
 
@@ -21,8 +24,9 @@ app.get('/uploads/*', function (req, res) {
 
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+// 下面三行设置渲染的引擎模板
+app.set('views', path.join(__dirname, 'views')); //设置模板的目录
+app.set('view engine', 'jade');// 设置解析模板文件类型：这里为jade文件
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -57,7 +61,7 @@ app.use(cors({
 
 
 //设置路由
-//app.use('/',authoizationMiddleware, routes);   //设置拦截器
+// app.use('/',authoizationMiddleware, routes);   //设置拦截器
 app.use('/', routes);
 
 
@@ -102,10 +106,11 @@ app.use(session({
         return genuuid();
     },
     resave: true,
-    saveUninitialized: true,
+    saveUninitialized: false, //是否保存未初始化的会话
     secret: 'uwotm8',
     // TODO : 确定是否设置maxAge
-    cookie: {httpOnly: true, secure: false},
+    cookie: {maxAge : 1000 * 60 * 3, // 设置 session 的有效时间，单位毫秒
+		},
     name: "my-session-id",
     // 每次请求，自动更新cookie的过期时间
     rolling: true
@@ -113,13 +118,15 @@ app.use(session({
 app.use(express.static(path.join(__dirname, 'dest'), {
     maxAge: 30000000
 }));
+
 function authoizationMiddleware(req, res, next) {
 		console.log("拦截器 session",req.session);
-//  let {uid} = req.session;
+		let uid = req.session;
     console.log(typeof req.session);
     if (typeof uid === 'undefined') {
     		console.log("没有session");
-        res.status(301).redirect('/');
+				res.json($err.code_9);
+        // res.status(301).redirect('/');
     } else {
         next();
     }

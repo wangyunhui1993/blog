@@ -3,6 +3,7 @@ var mysql=require('mysql');
 var $conf=require('../conf/db.js');
 var $util=require('../util/util.js');
 var $err=require('../conf/errInfo.js');
+var $util=require('../util/util.js');
 //使用连接池
 var pool  = mysql.createPool($util.extend({}, $conf.mysql));
 
@@ -27,6 +28,7 @@ module.exports = {
 			console.log("req.body",req.body);
 			// 建立连接，向表中插入值
 			let paramNeedObj={article_name:{require:true,name:"文章标题",code:"code_4"},article_content:{require:true,name:"文章内容",code:"code_5"}};
+
 			let sqlParams={};
 			let state=false;
 			for(var item in paramNeedObj){
@@ -45,6 +47,8 @@ module.exports = {
 				res.json($err.code_1);
 				return;
 			}
+
+
 			sqlParams.article_time=new Date();
 			let sql='INSERT INTO article SET  ?';
 			connection.query(sql, sqlParams, function(err, result) {   //插入
@@ -123,6 +127,13 @@ module.exports = {
 			var param = req.body;
 			// 建立连接，向表中插入值
 			let paramNeedObj={article_id:{require:true,name:"文章ID",code:"code_8"}};
+			// let obj=$util.formatPara(param,paramNeedObj,res);
+
+			// if(obj){
+
+
+
+
 			let sqlParams={};
 			let state=false;
 			for(var item in paramNeedObj){
@@ -141,7 +152,7 @@ module.exports = {
 				res.json($err.code_1);
 				return;
 			}
-			let sql='select * from article where article_id='+sqlParams.article_id;
+			let sql='select * from article where article_id='+obj.article_id;
 			connection.query(sql, function(err, result) {   //查询
 						if(result){
 							console.log(result);
@@ -154,6 +165,7 @@ module.exports = {
 							res.json(err);
 						}
 			});
+		// }
 		});
 	},
 	
