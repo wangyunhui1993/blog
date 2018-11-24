@@ -111,6 +111,7 @@ export default {
     //获取文章列表
     getArticles() {
       let info = this.searchForm;
+			console.log(info);
       getArticleList(info).then(data => {
         let {
           err_code,

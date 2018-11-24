@@ -1,7 +1,9 @@
+const addr=window.location.hostname;
+
 window.g = {
-	netName : '后台管理系统',    /*项目名字*/
-//	base : 'http://dxftech.asuscomm.com:8081/yz',    /*API接口前缀 - for 外网*/
-//	base : 'http://192.168.1.122:8081/yz',    /*API接口前缀*/
-	base : 'http://127.0.0.1:3000',
+	netName : '后台管理系统',            /*项目名字*/
+	// base :"http://"+addr+":3000",    /*外网接口前缀*/
+	// base : 'http://192.168.1.13:3000',
+	base : 'http://neo-o.51vip.biz:46653',
 }
-	
+console.log('接口前缀',window.g.base);	

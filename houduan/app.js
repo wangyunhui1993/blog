@@ -14,7 +14,6 @@ var routes = require('./routes/index');
 
 var $err=require('./conf/errInfo.js');
 
-
 var app = express();
 
 
@@ -37,25 +36,26 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
+// const allowaddr=['http://192.168.1.11:9000','http://192.168.1.11','http://neo-o.iok.la','http://neo-o.51vip.biz:46653',];
+// const allowaddr=['http://192.168.1.13'];
+// app.use((req, res, next) => {
+// 	// 允许的请求主机名及端口号 也可以用通配符*， 表示允许所有主机请求
+// 	res.setHeader('Access-Control-Allow-Origin', '*');
+// 	// 允许请求携带cookie 
+// 	res.setHeader('Access-Control-Allow-Credentials', true);
+//     // 允许的请求方式
+//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+//     // 允许的请求头
+//     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+// 	next();
+// });
 
-
-app.use((req, res, next) => {
-	// 允许的请求主机名及端口号 也可以用通配符*， 表示允许所有主机请求
-	res.setHeader('Access-Control-Allow-Origin', '*');
-	// 允许请求携带cookie 
-	res.setHeader('Access-Control-Allow-Credentials', true);
-    // 允许的请求方式
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    // 允许的请求头
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-	next();
-});
-
-//app.use(cors());
+// app.use(cors());
 app.use(cors({
-    origin:['http://localhost:9000'],
-    methods:['GET','POST'],
-    alloweHeaders:['Conten-Type', 'Authorization']
+		credentials: true ,
+    origin:["http://localhost","http://neo-o.iok.la",],
+    methods:['GET','POST',"OPTIONS",],
+    alloweHeaders:['Conten-Type', 'Authorization',"X-Requested-With"]
 }));
 
 
