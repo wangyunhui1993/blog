@@ -24,7 +24,7 @@ var goodlist = require('../good/goodlist.js');
 
 var user = require('./user.js');
 var blog = require('./blog.js');
-var uploadFiles = require('./uploadFiles.js');
+var uploadFiles = require('./components/uploadFiles.js');
 /* GET home page. */
 //进入主页面信息
 //router.get('/', function(req, res, next) {
