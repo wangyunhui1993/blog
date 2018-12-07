@@ -168,6 +168,53 @@ module.exports = {
 		// }
 		});
 	},
+	article_delete:function(req, res, next){
+			pool.getConnection(function(err, connection) {
+				// 获取前台页面传过来的参数
+				var param = req.body;
+				// 建立连接，向表中插入值
+				let paramNeedObj={article_id:{require:true,name:"文章ID",code:"code_8"}};
+				// let obj=$util.formatPara(param,paramNeedObj,res);
+	
+				// if(obj){
+	
+	
+	
+	
+				let sqlParams={};
+				let state=false;
+				for(var item in paramNeedObj){
+					if(paramNeedObj[item].require && !(item in param)){
+						state=true;
+						break;
+					}else{
+						sqlParams[item]=param[item]?param[item]:"";
+						if(paramNeedObj[item].require && sqlParams[item]===""){   //必填属性为空直接返回错误信息
+							res.json($err[paramNeedObj[item].code]);
+							return;
+						}
+					}
+				}
+				if(state){   //必填属性缺少直接返回错误信息
+					res.json($err.code_1);
+					return;
+				}
+				let sql='select * from article where article_id='+obj.article_id;
+				connection.query(sql, function(err, result) {   //查询
+							if(result){
+								console.log(result);
+								// 以json形式，把操作结果返回给前台页面
+								let resInfo=Object.assign($err.code_0,{detail:result[0]});
+								res.json(resInfo);
+								// 释放连接 
+								connection.release();
+							}else{
+								res.json(err);
+							}
+				});
+			// }
+			});
+		},
 	
 
 
