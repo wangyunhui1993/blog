@@ -24,7 +24,7 @@ var goodlist = require('../good/goodlist.js');
 
 var user = require('./user.js');
 var blog = require('./blog.js');
-var uploadFiles = require('./uploadFiles.js');
+var uploadFiles = require('./components/uploadFiles.js');
 /* GET home page. */
 //进入主页面信息
 //router.get('/', function(req, res, next) {
@@ -59,7 +59,16 @@ router.post('/user_create',function(req,res,next){
 	console.log('创建用户');
 	user.create(req,res,next);
 });
-
+//查询用户
+router.post('/user_query',function(req,res,next){
+	console.log('查询用户');
+	user.query(req,res,next);
+});
+//查询用户详情
+router.post('/user_detail', function(req,res,next){
+	console.log('查询用户详情');
+	user.detail(req,res,next);
+});
 
 
 
@@ -83,6 +92,11 @@ router.post('/blog_query', function(req,res,next){
 router.post('/blog_detail', function(req,res,next){
 	console.log('查询文章');
 	blog.detail(req,res,next);
+});
+//删除文章（假删除，更改状态为0）
+router.post('/blog_delete', function(req,res,next){
+	console.log('删除文章');
+	blog.article_delete(req,res,next);
 });
 
 

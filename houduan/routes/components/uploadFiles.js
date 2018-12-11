@@ -1,8 +1,8 @@
 //实现与mysql交互
 var mysql=require('mysql');
-var $conf=require('../conf/db.js');
-var $util=require('../util/util.js');
-var $err=require('../conf/errInfo.js');
+var $conf=require('../../conf/db.js');
+var $util=require('../../util/util.js');
+var $err=require('../../conf/errInfo.js');
 var net = require("net")
 //使用连接池
 var pool  = mysql.createPool($util.extend({}, $conf.mysql));
