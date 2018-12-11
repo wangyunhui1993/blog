@@ -2,14 +2,14 @@ var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
-var cookieParser = require('cookie-parser');
+
 var bodyParser = require('body-parser');
 var cors = require('cors');
 
 //在项目开发中我们常需要给某些数据定义一个唯一标识符，便于寻找，关联node-uuid模块（node-uuid模块）
 let uuid = require("node-uuid");
-let session = require('express-session');
-
+// let session = require('express-session');
+// var cookieParser = require('cookie-parser');   //获取前台cookie,但是会多发送一个options请求
 var routes = require('./routes/index');
 
 var $err=require('./conf/errInfo.js');
@@ -32,7 +32,7 @@ app.set('view engine', 'jade');// 设置解析模板文件类型：这里为jade
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+// app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
@@ -101,23 +101,24 @@ app.use(function(err, req, res, next) {
 
 
 // set session
-app.use(session({
-    genid: function (req) {
-        return genuuid();
-    },
-    resave: true,
-    saveUninitialized: false, //是否保存未初始化的会话
-    secret: 'uwotm8',
-    // TODO : 确定是否设置maxAge
-    cookie: {maxAge : 1000 * 60 * 3, // 设置 session 的有效时间，单位毫秒
-		},
-    name: "my-session-id",
-    // 每次请求，自动更新cookie的过期时间
-    rolling: true
-}));
-app.use(express.static(path.join(__dirname, 'dest'), {
-    maxAge: 30000000
-}));
+// app.use(session({
+//     genid: function (req) {
+//         return genuuid();
+//     },
+//     resave: true,
+//     saveUninitialized: false, //是否保存未初始化的会话
+//     secret: 'uwotm8',
+//     // TODO : 确定是否设置maxAge
+//     cookie: {maxAge : 1000 * 60 * 3, // 设置 session 的有效时间，单位毫秒
+// 		},
+//     name: "my-session-id",
+//     // 每次请求，自动更新cookie的过期时间
+//     rolling: true
+// }));
+// app.use(express.static(path.join(__dirname, 'dest'), {
+//     maxAge: 30000000
+// }));
+
 
 function authoizationMiddleware(req, res, next) {
 		console.log("拦截器 session",req.session);

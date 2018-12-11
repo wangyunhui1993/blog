@@ -9,4 +9,7 @@ module.exports = {
     code_7:{err_code:7,err_msg:"页数必须是正整数"},
     code_8:{err_code:8,err_msg:"文章ID必须是正数"},
 	code_9:{err_code:9,err_msg:"未登录或者登录已过期"},
+	code_10:{err_code:10,err_msg:"用户名被占用"},
+	code_11:{err_code:11,err_msg:"该文章不存在"},
+	code_12:{err_code:12,err_msg:"该用户不存在"},
 };

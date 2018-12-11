@@ -64,9 +64,9 @@ module.exports = {
       if (data) {
         let sql =
           'select article_id,article_name,article_time from article limit ' +
-          (data.pageNum - 1) * data.pageSize +
+          (sqlParams.pageNum - 1) * sqlParams.pageSize +
           ',' +
-          data.pageSize;
+          sqlParams.pageSize;
         connection.query (sql, function (err, result) {
           //查询
           if (result) {
@@ -92,6 +92,10 @@ module.exports = {
           }
         });
       } 
+      } else {
+        //必填属性缺少直接返回错误信息
+        res.json ($err.code_1);
+      }
     });
   },
   detail: function (req, res, next) {
@@ -164,3 +168,45 @@ module.exports = {
 };
 
 
+      // let obj=$util.formatPara(param,paramNeedObj,res);
+
+      // if(obj){
+
+      let sqlParams = {};
+      let state = false;
+      for (var item in paramNeedObj) {
+        if (paramNeedObj[item].require && !(item in param)) {
+          state = true;
+          break;
+        } else {
+          sqlParams[item] = param[item] ? param[item] : '';
+          if (paramNeedObj[item].require && sqlParams[item] === '') {
+            //必填属性为空直接返回错误信息
+            res.json ($err[paramNeedObj[item].code]);
+            return;
+          }
+        }
+      }
+      if (state) {
+        //必填属性缺少直接返回错误信息
+        res.json ($err.code_1);
+        return;
+      }
+      let sql = 'select * from article where article_id=' + obj.article_id;
+      connection.query (sql, function (err, result) {
+        //查询
+        if (result) {
+          console.log (result);
+          // 以json形式，把操作结果返回给前台页面
+          let resInfo = Object.assign ($err.code_0, {detail: result[0]});
+          res.json (resInfo);
+          // 释放连接
+          connection.release ();
+        } else {
+          res.json (err);
+        }
+      });
+      // }
+    });
+  },
+};

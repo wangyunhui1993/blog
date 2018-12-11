@@ -18,6 +18,7 @@ module.exports = function (param, paramNeedObj,res) {
 //         break;
 //         return false;
 //       }
+
     }
   }
   return sqlParams;
