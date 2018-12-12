@@ -1,3 +1,6 @@
+/**
+ * Created by Neo on 2018/9/6.
+ */
 module.exports = {
     code_0:{err_code:0,err_msg:"操作成功"},
     code_1:{err_code:1,err_msg:"缺少必要参数"},

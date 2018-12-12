@@ -1,3 +1,6 @@
+/**
+ * Created by Neo on 2018/9/6.
+ */
 var express = require('express');
 var router = express.Router();
 
@@ -97,6 +100,11 @@ router.post('/blog_detail', function(req,res,next){
 router.post('/blog_delete', function(req,res,next){
 	console.log('删除文章');
 	blog.article_delete(req,res,next);
+});
+//修改文章
+router.post('/blog_edit', function(req,res,next){
+	console.log('查询文章');
+	blog.edit(req,res,next);
 });
 
 
