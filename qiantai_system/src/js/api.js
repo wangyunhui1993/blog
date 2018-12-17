@@ -18,3 +18,5 @@ let base = 'http://localhost:3000'
 export const setIssueArticle = params => { return axios.post(`${base}/issueArticle`, params).then(res => res.data).catch(error=>error); };
 export const getArticleList = params => { return axios.post(`${base}/blog_query`, params).then(res => res.data).catch(error=>error); };
 export const getArticleDetail = params => { return axios.post(`${base}/blog_detail`, params).then(res => res.data).catch(error=>error); };
+
+export const robot = params => { return axios.get(`${base}/robot`, params).then(res => res.data).catch(error=>error); };

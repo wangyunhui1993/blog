@@ -4,6 +4,7 @@ import Home from '@/pages/Home'
 import Class from '@/pages/Class'
 import Finding from '@/pages/Finding'
 import Mine from '@/pages/Mine'
+import Robot from '@/pages/Robot'
 import ProductList from '@/pages/ProductList'
 import ArticleDetail from '@/pages/ArticleDetail'
 import Search from '@/pages/Search'
@@ -48,6 +49,8 @@ export default new Router({
       menuShow: true,
       component: Mine
     },
+		
+		
 
     {
       path: '/articleDetail',
@@ -72,7 +75,13 @@ export default new Router({
       name: '登录',
       menuShow: false,
       component: Login
-    }
+    },
+		{
+			path: '/robot',
+			name: '聊天机器人',
+			menuShow: false,
+			component: Robot
+		},
 //  ,
 //  { path: '*', menuShow: false, component: NotFind }
   ]
