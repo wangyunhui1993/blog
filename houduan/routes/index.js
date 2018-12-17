@@ -27,6 +27,12 @@ var goodlist = require('../good/goodlist.js');
 
 var user = require('./user.js');
 var blog = require('./blog.js');
+var robot = require('./robot.js');
+
+
+
+
+
 var uploadFiles = require('./components/uploadFiles.js');
 /* GET home page. */
 //进入主页面信息
@@ -106,6 +112,17 @@ router.post('/blog_edit', function(req,res,next){
 	console.log('查询文章');
 	blog.edit(req,res,next);
 });
+
+
+
+
+//机器人聊天
+router.get('/robot', function(req,res,next){
+	console.log('机器人聊天');
+	robot.robot(req,res,next);
+});
+
+
 
 
 

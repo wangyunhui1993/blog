@@ -14,5 +14,6 @@ module.exports = {
 	code_9:{err_code:9,err_msg:"未登录或者登录已过期"},
 	code_10:{err_code:10,err_msg:"用户名被占用"},
 	code_11:{err_code:11,err_msg:"该文章不存在"},
-	code_12:{err_code:12,err_msg:"该用户不存在"},
+    code_12:{err_code:12,err_msg:"该用户不存在"},
+    code_100:{err_code:100,err_msg:"不好意思哦,我没有听到您说的啥。"},
 };

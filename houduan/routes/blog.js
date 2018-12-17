@@ -89,9 +89,9 @@ module.exports = {
 			if (data) {
 				let sql =
 					'select article_id,article_name,article_time from article limit ' +
-					(sqlParams.pageNum - 1) * sqlParams.pageSize +
+					(data.pageNum - 1) * data.pageSize +
 					',' +
-					sqlParams.pageSize;
+					data.pageSize;
 				connection.query(sql, function(err, result) {
 					//查询
 					if (result) {
