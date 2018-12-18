@@ -8,9 +8,9 @@
 <div class="contenter">
     <div class="chartList">
         <!--聊天内容-->
-			<div class="windows_body">
-				<div class="office_text" style="height: 100%;">
-					<ul class="content" id="chatbox">
+			<div class="windows_body"  id="chatbox">
+				<div class="office_text">
+					<ul class="content">
 						<li v-for="(item,index) in msgList" :key="index" :class="item.type"><img src="../assets/images/15.jpg"><span>{{item.value}}</span></li>
 						<!-- <li class="other"><img src="../assets/images/15.jpg" title="张文超"><span>勇夫安知义，智者必怀仁</span></li> -->
 					</ul>
@@ -47,16 +47,21 @@ export default {
     sendBtn(){
        this.msgList.push({value:this.msg,type:'me'});
       this.sendMsg(this.msg);
+			this.msg='';
     },
     sendMsg(msg){
       let info={
+				params:{
         message:msg,
         userId:'123456789'
       }
+			}
       robot(info).then(data => {
         console.log(data);
         this.msgList.push({value:data,type:'other'});
-        this.msg='';
+// 				var ele = document.getElementById('chatbox');
+// 				ele.scrollTop = ele.scrollHeight;
+        
       // let {
       //   err_code,
       //   err_msg,
@@ -103,8 +108,9 @@ export default {
 
 
 .windows_body{
-	height: 473px;
+	height: 100%;
 	width: 100%;
+	overflow-y: auto;
 }
 .office_text1{
     width: 100%;
@@ -148,9 +154,10 @@ export default {
     padding:7px;
     border-radius:4px;
     margin:0 10px;
-    max-width:80%;
+    max-width: calc(100% - 70px);
     border: 1px solid #9eea6a;
     position: relative;
+		word-wrap:break-word ;
 }
 
 .me span:before{
@@ -196,9 +203,10 @@ export default {
     border-radius:4px;
     float: left;
     margin:0 10px;
-    max-width:80%;
+    max-width: calc(100% - 70px);
     border: 1px solid #ededed;
     position: relative;
+		word-wrap:break-word ;
 }
 
 .other span:before{
@@ -245,6 +253,7 @@ export default {
     border-radius: 0.3rem;
     border:0.03rem solid #ddd;
     padding : 0 0.45rem;
+		font-size: 0.8rem;
 
 
 }
@@ -261,7 +270,7 @@ export default {
     margin-top:0.6rem;
     margin-right:0.6rem;
 }
-.send:after,.show:after,.msg:after{
+.send:after,.show:after,.msg:after,.content:after{
 	content: "";
 	clear: both;
 	display: table;	

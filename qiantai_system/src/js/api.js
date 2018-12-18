@@ -1,5 +1,6 @@
 import axios from 'axios'
-let base = 'http://localhost:3000'
+let host=window.location.host;
+let base = 'http://'+host+':3000'
 
 
 //本地
