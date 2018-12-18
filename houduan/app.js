@@ -53,7 +53,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // app.use(cors());
 app.use(cors({
 		credentials: true ,
-    origin:["http://localhost","http://neo-o.iok.la",],
+    origin:["http://localhost","http://neo-o.iok.la","http://192.168.1.112"],
     methods:['GET','POST',"OPTIONS",],
     alloweHeaders:['Conten-Type', 'Authorization',"X-Requested-With"]
 }));
