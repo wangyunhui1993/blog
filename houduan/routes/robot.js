@@ -13,6 +13,7 @@ module.exports = {
     robot:function(req, res, next){
         console.log('进入机器人聊天接口',req);
         pool.getConnection (function (err, connection) {
+			console.log('err',err);
 			// 获取前台页面传过来的参数
 			var param = req.query;
 			console.log('前台传来的参数',JSON.stringify(param));
@@ -25,38 +26,36 @@ module.exports = {
 			console.log('格式化后的参数',JSON.stringify(data));
 			if (data) {
                 forwardRobot(data,function(msg){
+					let info={
+						time:new Date(),
+						ip:req.ip,
+						send:data.message,
+						userId:data.userId
+					}
+					let resInfo='';
                     if(msg===false){
-                        let resInfo=Object.assign($err.code_100,{});
-                        res.json(resInfo);
+						resInfo=Object.assign($err.code_100,{});
+						info.receive=$err.msg_100;
                     }else{
-						// console.log(msg);
-                        res.json(msg);
-                    }
-
+						 resInfo=Object.assign($err.code_0,{message:msg});
+						 info.receive=msg;
+					}
+					let sql = 'INSERT INTO robot SET  ?';
+							console.log('执行的sql语句', sql);
+							connection.query(sql, info, function(err, result) { //插入
+								if (result) {
+									console.log(result);
+									// 以json形式，把操作结果返回给前台页面
+									res.json(resInfo);
+								} else {
+									res.json(err);
+								}
+								// 释放连接
+								connection.release();
+							});
                 });
-			// let sql='select * from user where user_id='+data.user_id;
-			// console.log('执行的sql语句',sql);
-			// connection.query(sql, function(err, result) {   //查询
-			// 		console.log('查询到的结果',JSON.stringify(result));
-			// 			if(result){
-			// 				console.log(result);
-			// 				if(result.length===0){
-			// 					let resInfo=Object.assign($err.code_12,{});
-			// 					res.json(resInfo);
-			// 				}else{
-			// 					// 以json形式，把操作结果返回给前台页面
-			// 					let resInfo=Object.assign($err.code_0,{detail:result[0]});
-			// 					res.json(resInfo);
-			// 				}
-							
-			// 				// 释放连接 
-			// 				connection.release();
-			// 			}else{
-			// 				res.json(err);
-			// 			}
-			// });
-			
 		}
 		});
-    },
+	},
+	
 }
