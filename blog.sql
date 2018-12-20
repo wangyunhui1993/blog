@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50626
 File Encoding         : 65001
 
-Date: 2018-12-11 23:47:13
+Date: 2018-12-20 23:23:07
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -76,13 +76,13 @@ CREATE TABLE `article` (
   `article_support` tinyint(3) DEFAULT '0' COMMENT '是否博主推荐:0为否，1为是',
   `article_state` tinyint(3) NOT NULL DEFAULT '1',
   PRIMARY KEY (`article_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of article
 -- ----------------------------
 INSERT INTO `article` VALUES ('1', '1', '2018-09-14 00:00:00', null, null, null, null, '1', '1', '<p>1</p>', '0', '0', '1');
-INSERT INTO `article` VALUES ('2', 'Node.js Express 框架', '2018-09-14 00:00:00', null, null, null, null, '1', '1', '<h2>Express 简介</h2><p>Express 是一个简洁而灵活的 node.js Web应用框架, 提供了一系列强大特性帮助你创建各种 Web 应用，和丰富的 HTTP 工具。</p><p>使用 Express 可以快速地搭建一个完整功能的网站。</p><p>Express 框架核心特性：</p><ul><li>可以设置中间件来响应 HTTP 请求。</li><li>定义了路由表用于执行不同的 HTTP 请求动作。</li><li>可以通过向模板传递参数来动态渲染 HTML 页面。</li></ul><p><br></p>', '0', '0', '1');
+INSERT INTO `article` VALUES ('2', '201111111111', '2018-09-14 00:00:00', null, null, null, null, '1', '1', '测试', '0', '0', '1');
 INSERT INTO `article` VALUES ('3', '12', '2018-09-14 14:07:12', null, null, null, null, '1', '1', '<p>12</p>', '0', '0', '1');
 INSERT INTO `article` VALUES ('4', 'js扩展运算符（spread）是三个点（...）', '2018-09-14 15:56:21', null, null, null, null, '1', '1', '<p class=\"ql-align-right\"><br></p><p><code style=\"color: rgb(0, 130, 0); background-color: initial;\">//该运算符主要用于函数调用。&lt;br&gt;function push(array, ...items) {</code></p><p><code style=\"background-color: initial;\">&nbsp;&nbsp;</code><code style=\"background-color: initial; color: rgb(0, 0, 0);\">array.push(...items);</code></p><p><code style=\"color: rgb(0, 0, 0); background-color: initial;\">}</code></p><p>&nbsp;</p><p><code style=\"color: rgb(0, 0, 255); background-color: initial;\">function</code>&nbsp;<code style=\"color: rgb(0, 0, 0); background-color: initial;\">add(x, y) {</code></p><p><code style=\"background-color: initial;\">&nbsp;&nbsp;</code><code style=\"background-color: initial; color: rgb(0, 0, 255);\">return</code>&nbsp;<code style=\"color: rgb(0, 0, 0); background-color: initial;\">x + y;</code></p><p><code style=\"color: rgb(0, 0, 0); background-color: initial;\">}</code></p><p>&nbsp;</p><p><code style=\"color: rgb(0, 0, 255); background-color: initial;\">var</code>&nbsp;<code style=\"color: rgb(0, 0, 0); background-color: initial;\">numbers = [4, 38];</code></p><p><code style=\"color: rgb(0, 0, 0); background-color: initial;\">add(...numbers)&nbsp;</code><code style=\"color: rgb(0, 130, 0); background-color: initial;\">// 42</code></p><p class=\"ql-align-right\"><br></p><p><code style=\"color: rgb(0, 130, 0); background-color: initial;\">//扩展运算符取代apply方法的一个实际的例子，应用Math.max方法，简化求出一个数组最大元素的写法。</code></p><p><code style=\"color: rgb(0, 130, 0); background-color: initial;\">// ES5 的写法</code></p><p><code style=\"color: rgb(0, 0, 0); background-color: initial;\">Math.max.apply(</code><code style=\"color: rgb(0, 0, 255); background-color: initial;\">null</code><code style=\"color: rgb(0, 0, 0); background-color: initial;\">, [14, 3, 77])</code></p><p>&nbsp;</p><p><code style=\"color: rgb(0, 130, 0); background-color: initial;\">// ES6 的写法</code></p><p><code style=\"color: rgb(0, 0, 0); background-color: initial;\">Math.max(...[14, 3, 77])</code></p><p>&nbsp;</p><p><code style=\"color: rgb(0, 130, 0); background-color: initial;\">// 等同于</code></p><p><code style=\"color: rgb(0, 0, 0); background-color: initial;\">Math.max(14, 3, 77);</code></p><p><br></p><p class=\"ql-align-right\"><br></p><p><code style=\"color: rgb(0, 130, 0); background-color: initial;\">//通过push函数，将一个数组添加到另一个数组的尾部</code></p><p><code style=\"color: rgb(0, 130, 0); background-color: initial;\">// ES5的 写法</code></p><p><code style=\"color: rgb(0, 0, 255); background-color: initial;\">var</code>&nbsp;<code style=\"color: rgb(0, 0, 0); background-color: initial;\">arr1 = [0, 1, 2];</code></p><p><code style=\"color: rgb(0, 0, 255); background-color: initial;\">var</code>&nbsp;<code style=\"color: rgb(0, 0, 0); background-color: initial;\">arr2 = [3, 4, 5];</code></p><p><code style=\"color: rgb(0, 0, 0); background-color: initial;\">Array.prototype.push.apply(arr1, arr2);</code></p><p>&nbsp;</p><p><code style=\"color: rgb(0, 130, 0); background-color: initial;\">// ES6 的写法</code></p><p><code style=\"color: rgb(0, 0, 255); background-color: initial;\">var</code>&nbsp;<code style=\"color: rgb(0, 0, 0); background-color: initial;\">arr1 = [0, 1, 2];</code></p><p><code style=\"color: rgb(0, 0, 255); background-color: initial;\">var</code>&nbsp;<code style=\"color: rgb(0, 0, 0); background-color: initial;\">arr2 = [3, 4, 5];</code></p><p><code style=\"color: rgb(0, 0, 0); background-color: initial;\">arr1.push(...arr2);</code></p><p><br></p><p class=\"ql-align-right\"><br></p><p><code style=\"color: rgb(0, 130, 0); background-color: initial;\">//合并数组</code></p><p><code style=\"color: rgb(0, 130, 0); background-color: initial;\">// ES5</code></p><p><code style=\"color: rgb(0, 0, 0); background-color: initial;\">[1, 2].concat(more)</code></p><p><code style=\"color: rgb(0, 130, 0); background-color: initial;\">// ES6</code></p><p><code style=\"color: rgb(0, 0, 0); background-color: initial;\">[1, 2, ...more]</code></p><p>&nbsp;</p><p><code style=\"color: rgb(0, 0, 255); background-color: initial;\">var</code>&nbsp;<code style=\"color: rgb(0, 0, 0); background-color: initial;\">arr1 = [</code><code style=\"color: blue; background-color: initial;\">\'a\'</code><code style=\"color: rgb(0, 0, 0); background-color: initial;\">,&nbsp;</code><code style=\"color: blue; background-color: initial;\">\'b\'</code><code style=\"color: rgb(0, 0, 0); background-color: initial;\">];</code></p><p><code style=\"color: rgb(0, 0, 255); background-color: initial;\">var</code>&nbsp;<code style=\"color: rgb(0, 0, 0); background-color: initial;\">arr2 = [</code><code style=\"color: blue; background-color: initial;\">\'c\'</code><code style=\"color: rgb(0, 0, 0); background-color: initial;\">];</code></p><p><code style=\"color: rgb(0, 0, 255); background-color: initial;\">var</code>&nbsp;<code style=\"color: rgb(0, 0, 0); background-color: initial;\">arr3 = [</code><code style=\"color: blue; background-color: initial;\">\'d\'</code><code style=\"color: rgb(0, 0, 0); background-color: initial;\">,&nbsp;</code><code style=\"color: blue; background-color: initial;\">\'e\'</code><code style=\"color: rgb(0, 0, 0); background-color: initial;\">];</code></p><p>&nbsp;</p><p><code style=\"color: rgb(0, 130, 0); background-color: initial;\">// ES5的合并数组</code></p><p><code style=\"color: rgb(0, 0, 0); background-color: initial;\">arr1.concat(arr2, arr3);</code></p><p><code style=\"color: rgb(0, 130, 0); background-color: initial;\">// [ \'a\', \'b\', \'c\', \'d\', \'e\' ]</code></p><p>&nbsp;</p><p><code style=\"color: rgb(0, 130, 0); background-color: initial;\">// ES6的合并数组</code></p><p><code style=\"color: rgb(0, 0, 0); background-color: initial;\">[...arr1, ...arr2, ...arr3]</code></p><p><code style=\"color: rgb(0, 130, 0); background-color: initial;\">// [ \'a\', \'b\', \'c\', \'d\', \'e\' ]</code></p><p><br></p><p class=\"ql-align-right\"><br></p><p><code style=\"color: rgb(0, 0, 0); background-color: initial;\">扩展运算符将字符串转为真正的数组</code></p><p><code style=\"color: rgb(0, 0, 0); background-color: initial;\">[...</code><code style=\"color: blue; background-color: initial;\">\'hello\'</code><code style=\"color: rgb(0, 0, 0); background-color: initial;\">]</code></p><p><code style=\"color: rgb(0, 130, 0); background-color: initial;\">// [ \"h\", \"e\", \"l\", \"l\", \"o\" ]</code></p><p><br></p>', '0', '0', '1');
 INSERT INTO `article` VALUES ('5', '23563465', '2018-11-21 14:33:59', null, null, null, null, '1', '1', '<p>53245345345</p>', '0', '0', '1');
@@ -103,6 +103,7 @@ INSERT INTO `article` VALUES ('19', '20', '2018-12-07 22:49:29', null, null, nul
 INSERT INTO `article` VALUES ('20', '20', '2018-12-07 22:49:29', null, null, null, null, '1', '1', '测试', '0', '0', '0');
 INSERT INTO `article` VALUES ('21', '20', '2018-12-07 22:50:24', null, null, null, null, '1', '1', '测试', '0', '0', '1');
 INSERT INTO `article` VALUES ('22', '201', '2018-12-07 22:50:54', null, null, null, null, '1', '1', '测111试', '0', '0', '1');
+INSERT INTO `article` VALUES ('23', '20', '2018-12-12 22:01:53', null, null, null, null, '1', '1', '测试', '0', '0', '1');
 
 -- ----------------------------
 -- Table structure for article_sort
@@ -223,6 +224,25 @@ CREATE TABLE `power_list` (
 -- ----------------------------
 -- Records of power_list
 -- ----------------------------
+
+-- ----------------------------
+-- Table structure for robot
+-- ----------------------------
+DROP TABLE IF EXISTS `robot`;
+CREATE TABLE `robot` (
+  `id` int(12) NOT NULL AUTO_INCREMENT,
+  `time` datetime DEFAULT NULL,
+  `send` varchar(255) DEFAULT NULL,
+  `receive` varchar(255) DEFAULT NULL,
+  `ip` varchar(255) DEFAULT NULL,
+  `userId` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=gbk;
+
+-- ----------------------------
+-- Records of robot
+-- ----------------------------
+INSERT INTO `robot` VALUES ('1', '2018-12-20 22:54:53', '1', '这是谜题吗', '::1', '1545317690074');
 
 -- ----------------------------
 -- Table structure for secret_message
