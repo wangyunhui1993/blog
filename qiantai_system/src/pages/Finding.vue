@@ -6,7 +6,7 @@
   </router-link>
 </mt-header>
 <div class="contenter">
-	<mt-cell title="机器人" href="/#/robot" is-link value="可以陪你聊天的哦"></mt-cell>
+	<mt-cell title="机器人" href="#/robot" is-link value="可以陪你聊天的哦"></mt-cell>
 </div>
 
 		<tabbar-select></tabbar-select>
