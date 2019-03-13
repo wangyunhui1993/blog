@@ -176,7 +176,7 @@
 	}
 </script>
 
-<style>
+<style scoped>
 	image[lazy=loading] {
 		width: 100%;
 		height: 300px;
