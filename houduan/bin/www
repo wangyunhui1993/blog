@@ -7,12 +7,16 @@
 var app = require('../app');
 var debug = require('debug')('projectName:server');
 var http = require('http');
-
+var https = require('https');
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+var httpsPort = 3001; // 自定义数字端口，给https用的端口
+var httpPort = 3000; // 自定义数字端口
+
+
+var port = normalizePort(process.env.PORT || httpPort);
 app.set('port', port);
 
 /**

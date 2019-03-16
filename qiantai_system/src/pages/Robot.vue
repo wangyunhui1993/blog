@@ -290,7 +290,7 @@
     border: 0.03rem solid #ddd;
     padding: 0 0.45rem;
     font-size: 0.8rem;
-
+		outline: none;
 
   }
 

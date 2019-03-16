@@ -176,7 +176,7 @@
 	}
 </script>
 
-<style>
+<style scoped="scoped">
 	image[lazy=loading] {
 		width: 100%;
 		height: 300px;
@@ -200,7 +200,7 @@
 	
 	.item {
 		margin: 2% 1% 0;
-		width: 48%;
+		width: 100%;
 		background-color: #fff;
 		border-radius: 2px;
 		overflow: hidden;
