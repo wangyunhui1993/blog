@@ -83,7 +83,7 @@ export default {
       } = data;
       if (err_code !== 0) {
         Toast({
-          message: err_code,
+          message: err_msg,
           position: 'bottom',
           duration: 2000
         });

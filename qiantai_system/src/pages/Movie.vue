@@ -1,6 +1,6 @@
 <template>
 	<section class="section-con">
-		<mt-header title="嘿嘿" style="background: #58b7ff;height: 45px;font-size: 18px;" fixed>
+		<mt-header title="电影" style="background: #58b7ff;height: 45px;font-size: 18px;" fixed>
   <router-link to="/home" slot="left">
     <mt-button icon="back"></mt-button>
   </router-link>
@@ -10,7 +10,7 @@
 			<mt-field label="内容" placeholder="请输入内容" type="textarea" rows="4" v-model="subData.content"></mt-field>
 			<mt-button type="primary"  size="large" @click="submintData">发表</mt-button>
 		</div>
-		<tabbar-select></tabbar-select>
+		<tabbar-select></tabbar-select> 
 	</section>
 </template>
 <script>

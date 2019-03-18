@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/pages/Home'
-import Class from '@/pages/Class'
+import Movie from '@/pages/Movie'
 import Finding from '@/pages/Finding'
 import Mine from '@/pages/Mine'
 import Robot from '@/pages/Robot'
@@ -29,11 +29,11 @@ export default new Router({
       component: Home
     },
     {
-      path: '/class',
-      name: '嘿嘿',
+      path: '/movie',
+      name: '电影',
       iconCls:'reorder',
       menuShow: true,
-      component: Class
+      component: Movie
     },
     {
       path: '/find',

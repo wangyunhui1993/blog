@@ -7,28 +7,30 @@ var router = express.Router();
 var multer = require("multer");
 
 var storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'uploads/')
-  },
-  filename: function (req, file, cb) {
-    const filenameArr = file.originalname.split('.');
-    cb(null,Date.now() + '.' + filenameArr[filenameArr.length-1]);
-  }
+	destination: function(req, file, cb) {
+		cb(null, 'uploads/')
+	},
+	filename: function(req, file, cb) {
+		const filenameArr = file.originalname.split('.');
+		cb(null, Date.now() + '.' + filenameArr[filenameArr.length - 1]);
+	}
 })
 
-var upload = multer({ storage: storage });
+var upload = multer({
+	storage: storage
+});
 //var upload = multer({ dest: 'uploads/' })
 
 
 
-var fs=require('fs');
+var fs = require('fs');
 //关联主程序
 var goodlist = require('../good/goodlist.js');
 
 var user = require('./user.js');
 var blog = require('./blog.js');
 var robot = require('./robot.js');
-
+var player = require('./player.js');
 
 
 
@@ -41,86 +43,99 @@ var uploadFiles = require('./components/uploadFiles.js');
 //});
 
 //增
-router.get('/goodAdd',function(req,res,next){
-	goodlist.goodadd(req,res,next);
+router.get('/goodAdd', function(req, res, next) {
+	goodlist.goodadd(req, res, next);
 });
 
 //删
-router.get('/goodDel',function(req,res,next){
-	goodlist.gooddelete(req,res,next);
+router.get('/goodDel', function(req, res, next) {
+	goodlist.gooddelete(req, res, next);
 });
 //改
-router.get('/goodUpdate',function(req,res,next){
-	goodlist.goodupdate(req,res,next);
+router.get('/goodUpdate', function(req, res, next) {
+	goodlist.goodupdate(req, res, next);
 });
 //查
-router.post('/goodAll',function(req,res,next){
-	goodlist.goodAll(req,res,next);
+router.post('/goodAll', function(req, res, next) {
+	goodlist.goodAll(req, res, next);
 });
-router.get('/goodById',function(req,res,next){
-	goodlist.goodById(req,res,next);
+router.get('/goodById', function(req, res, next) {
+	goodlist.goodById(req, res, next);
 });
 
 
 
 //创建用户
-router.post('/user_create',function(req,res,next){
+router.post('/user_create', function(req, res, next) {
 	console.log('创建用户');
-	user.create(req,res,next);
+	user.create(req, res, next);
 });
 //查询用户
-router.post('/user_query',function(req,res,next){
+router.post('/user_query', function(req, res, next) {
 	console.log('查询用户');
-	user.query(req,res,next);
+	user.query(req, res, next);
 });
 //查询用户详情
-router.post('/user_detail', function(req,res,next){
+router.post('/user_detail', function(req, res, next) {
 	console.log('查询用户详情');
-	user.detail(req,res,next);
+	user.detail(req, res, next);
 });
 
 
 
 //文件上传
-router.post('/uploadFiles', upload.any(), function(req,res,next){
+router.post('/uploadFiles', upload.any(), function(req, res, next) {
 	console.log('文件上传');
-	uploadFiles.create(req,res,next);
+	uploadFiles.create(req, res, next);
 });
 
 //发表文章
-router.post('/blog_create',  function(req,res,next){
+router.post('/blog_create', function(req, res, next) {
 	console.log('发表文章');
-	blog.create(req,res,next);
+	blog.create(req, res, next);
 });
 //查询文章
-router.post('/blog_query', function(req,res,next){
+router.post('/blog_query', function(req, res, next) {
 	console.log('查询文章');
-	blog.query(req,res,next);
+	blog.query(req, res, next);
 });
 //查询文章详情
-router.post('/blog_detail', function(req,res,next){
+router.post('/blog_detail', function(req, res, next) {
 	console.log('查询文章');
-	blog.detail(req,res,next);
+	blog.detail(req, res, next);
 });
 //删除文章（假删除，更改状态为0）
-router.post('/blog_delete', function(req,res,next){
+router.post('/blog_delete', function(req, res, next) {
 	console.log('删除文章');
-	blog.article_delete(req,res,next);
+	blog.article_delete(req, res, next);
 });
 //修改文章
-router.post('/blog_edit', function(req,res,next){
+router.post('/blog_edit', function(req, res, next) {
 	console.log('查询文章');
-	blog.edit(req,res,next);
+	blog.edit(req, res, next);
 });
 
 
 
 
 //机器人聊天
-router.get('/robot', function(req,res,next){
+router.get('/robot', function(req, res, next) {
 	console.log('机器人聊天');
-	robot.robot(req,res,next);
+	robot.robot(req, res, next);
 });
+
+
+
+
+
+
+//查询播放源
+router.post('/player_query', function(req, res, next) {
+	console.log('查询播放源');
+	player.query(req, res, next);
+});
+
+
 
 
 

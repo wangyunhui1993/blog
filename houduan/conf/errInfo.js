@@ -15,5 +15,6 @@ module.exports = {
 	code_10:{err_code:10,err_msg:"用户名被占用"},
 	code_11:{err_code:11,err_msg:"该文章不存在"},
     code_12:{err_code:12,err_msg:"该用户不存在"},
-    code_100:{err_code:100,err_msg:"不好意思哦,我没有听到您说的啥。"},
+    code_13:{err_code:13,err_msg:"无法连接数据库"},
+	code_100:{err_code:100,err_msg:"不好意思哦,我没有听到您说的啥。"},
 };
