@@ -31,7 +31,7 @@ var user = require('./user.js');
 var blog = require('./blog.js');
 var robot = require('./robot.js');
 var player = require('./player.js');
-
+var playerNav = require('./playerNav.js');
 
 
 
@@ -136,6 +136,16 @@ router.post('/player_query', function(req, res, next) {
 });
 
 
+//添加播放导航
+router.post('/create_playerNav', function(req, res, next) {
+	console.log('添加播放导航');
+	playerNav.create(req, res, next);
+});
+//添加播放导航
+router.post('/query_playerNav', function(req, res, next) {
+	console.log('查询播放导航');
+	playerNav.query(req, res, next);
+});
 
 
 
