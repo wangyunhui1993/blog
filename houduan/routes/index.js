@@ -32,7 +32,7 @@ var blog = require('./blog.js');
 var robot = require('./robot.js');
 var player = require('./player.js');
 var playerNav = require('./playerNav.js');
-
+var movie = require('./movie.js');
 
 
 var uploadFiles = require('./components/uploadFiles.js');
@@ -146,6 +146,20 @@ router.post('/query_playerNav', function(req, res, next) {
 	console.log('查询播放导航');
 	playerNav.query(req, res, next);
 });
+
+
+
+//查询播放列表
+router.post('/query_movie', function(req, res, next) {
+	console.log('查询播放列表');
+	movie.query(req, res, next);
+});
+//查询所有集数
+router.post('/query_allItem', function(req, res, next) {
+	console.log('查询所有集数');
+	movie.getPlayerList(req, res, next);
+});
+
 
 
 

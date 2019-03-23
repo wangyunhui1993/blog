@@ -2,26 +2,47 @@
 	<div class="content">
 		<div>
        <tab :line-width=2 active-color='#fc378c' v-model="index">
-        <tab-item class="vux-center" :selected="selectedTab === item.id" v-for="(item, index) in playerNavList" v-if="item.parentID===0" @on-item-click="clickTab(item.id)" :key="index">{{item.name}}</tab-item>
+        <tab-item class="vux-center" :selected="selectedTab === item.id" v-for="(item, index) in playerNavList" v-if="item.parentID===0" @on-item-click="clickTab(item)" :key="index">{{item.name}}</tab-item>
       </tab>
-      <swiper v-model="index" height="300px" :show-dots="false">
+      <swiper v-model="index" height="230px" :show-dots="false">
         <swiper-item v-for="(item, index) in playerNavList" v-if="item.parentID===0"  :key="index">
           <div class="tab-swiper vux-center">
 			  <grid :cols="3" :show-lr-borders="false">
-				  <grid-item  v-for="(itemer, index) in playerNavList" v-if="itemer.parentID===item.id" :key="index">
-					<span  @click="clickGridItem(itemer)" class="grid-center">{{itemer.name}}</span>
+				  <grid-item  v-for="(itemer, index) in playerNavList" v-if="itemer.parentID===item.id" @click.native="clickGridItem(itemer)" :key="index">
+					<span   class="grid-center">{{itemer.name}}</span>
 				  </grid-item>
 				</grid>
 		  </div>
         </swiper-item>
       </swiper>
+	  <div class="movieList">
+		   <grid :cols="2">
+      <grid-item :label="item.title" style="position: relative;"  @click.native="showEveryItem(item)"   v-for="(item, index) in playerMovieList" :key="index">
+		  <div class="caption">{{item.caption}}</div>
+        <img slot="icon" :src="item.img">
+      </grid-item>
+    </grid>
+	  </div>
+    </div>
+		<div>
+      <popup v-model="show" @on-hide="log('hide')" @on-show="log('show')">
+        <div class="popup0">
+         <grid :cols="8" :show-lr-borders="false">
+         				  <grid-item  v-for="(item, index) in allItem" :link="'#/HelloWorld?url='+url+item.href" :key="index">
+         					<span class="grid-center">{{item.num}}</span>
+         				  </grid-item>
+         				</grid>
+        </div>
+      </popup>
     </div>
 		<toast v-model="showPositionValue" type="text" :time="800" is-show-mask :text="err_msg" position="middle"></toast>
 	</div>
 </template>
 <script>
 	import {
-		queryPlayerNav
+		queryPlayerNav,
+		queryMovie,
+		queryAllItem
 	} from "../js/api"
 	export default {
 		name: 'Menu',
@@ -30,17 +51,49 @@
 				showPositionValue:false,
 				err_msg:'',
 				playerNavList:[],
+				playerMovieList:[],
 				selectedTab:0,
 				index:0,
+				show:false,
+				allItem:[],
+				url:'https://v.qq.com',
 			}
 		},
 		methods: {
+			 log (str) {
+      console.log(str)
+    },
 			clickGridItem(item){
 				console.log(item);
+				this.getQueryMovie(item.url);
 			},
-			clickTab(id){
-				this.selectedTab=id;
-				console.log(id);
+			clickTab(item){
+				this.selectedTab=item.id;
+				this.getQueryMovie(item.url);
+			},
+			showEveryItem(item){
+				this.show=true;
+				console.log(item);
+				this.getQueryAllItem(item.href);
+			},
+			getQueryAllItem(url) {
+				//获取每一集
+				let info = {url:url};
+				queryAllItem(info).then(data => {
+					console.log('传回来的响应信息', data);
+					let {
+						err_code,
+						err_msg,
+						list
+					} = data;
+					if (err_code !== 0) {
+						this.showPositionValue = true;
+						this.err_msg = err_msg;
+					} else {
+						console.log(list);
+						this.allItem = list;
+					}
+				});
 			},
 			getPlayerNav() {
 				//获取分类
@@ -58,7 +111,28 @@
 					} else {
 						
 						this.playerNavList = list;
+						this.getQueryMovie(list[7].url);
 						console.log(this.playerNavList);
+					}
+				});
+			},
+			getQueryMovie(url) {
+				//获取播放列表
+				let info = {url:url};
+				queryMovie(info).then(data => {
+					console.log('传回来的响应信息', data);
+					let {
+						err_code,
+						err_msg,
+						list
+					} = data;
+					if (err_code !== 0) {
+						this.showPositionValue = true;
+						this.err_msg = err_msg;
+					} else {
+						
+						this.playerMovieList = list;
+						console.log(this.playerMovieList);
 					}
 				});
 			},
@@ -77,9 +151,14 @@
 				});
 				this.$refs.iframe.src = this.base + this.url;
 			},
+			getMovieList(){
+				
+			},
 		},
 		mounted() {
 			this.getPlayerNav();
+			
+			
 		},
 		created() {
 
@@ -91,5 +170,26 @@
 <style scoped>
 	.content{
 		height: 100vh;
+	}
+	.weui-grid{
+		padding: 10px 10px;
+	}
+	.caption{
+		position: absolute;
+		bottom: 40px;
+		left: 15px;
+		font-size: 12px;
+		color: #fff;
+	}
+	.popup0 {
+  padding-bottom:15px;
+  height:200px;
+}
+
+</style>
+<style>
+	.movieList .weui-grid__icon{
+		width: auto;
+		height: auto;
 	}
 </style>

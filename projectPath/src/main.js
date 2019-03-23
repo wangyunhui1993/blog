@@ -4,7 +4,7 @@ import Vue from 'vue'
 import FastClick from 'fastclick'
 import router from './router'
 import App from './App'
-import { Search ,Toast,XInput ,XButton ,PopupRadio ,Selector ,Cell ,Group , Tab, TabItem,Swiper,SwiperItem,Grid, GridItem} from 'vux'
+import { Search ,Toast,XInput ,XButton ,PopupRadio ,Selector ,Cell ,Group , Tab, TabItem,Swiper,SwiperItem,Grid, GridItem,Popup} from 'vux'
 Vue.component('search', Search)
 Vue.component('toast', Toast)
 Vue.component('x-input', XInput)
@@ -19,6 +19,7 @@ Vue.component('swiper', Swiper)
 Vue.component('swiper-item', SwiperItem)
 Vue.component('grid', Grid)
 Vue.component('grid-item', GridItem)
+Vue.component('popup', Popup)
 FastClick.attach(document.body)
 
 Vue.config.productionTip = false

@@ -24,7 +24,7 @@ module.exports = {
 	create: function(req, res, next) {
 		pool.getConnection(function(err, connection) {
 				if(connection){
-								// 获取前台页面传过来的参数
+					// 获取前台页面传过来的参数
 					var param = req.body;
 					console.log('前台传来的参数', JSON.stringify(param));
 					let paramNeedObj = {
