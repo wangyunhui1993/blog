@@ -2,9 +2,9 @@
 	<div class="content">
 		<div>
        <tab :line-width=2 active-color='#fc378c' v-model="index">
-        <tab-item class="vux-center" :selected="selectedTab === item.id" v-for="(item, index) in playerNavList" v-if="item.parentID===0" @on-item-click="clickTab(item)" :key="index">{{item.name}}</tab-item>
+        <tab-item class="vux-center"  v-for="(item, index) in playerNavList"  @on-item-click="clickTab(item)" :key="index">{{item.name}}</tab-item>
       </tab>
-      <swiper v-model="index" height="230px" :show-dots="false">
+      <!-- <swiper v-model="index" height="230px" :show-dots="false">
         <swiper-item v-for="(item, index) in playerNavList" v-if="item.parentID===0"  :key="index">
           <div class="tab-swiper vux-center">
 			  <grid :cols="3" :show-lr-borders="false">
@@ -14,7 +14,7 @@
 				</grid>
 		  </div>
         </swiper-item>
-      </swiper>
+      </swiper> -->
 	  <div class="movieList">
 		   <grid :cols="2">
       <grid-item :label="item.title" style="position: relative;"  @click.native="showEveryItem(item)"   v-for="(item, index) in playerMovieList" :key="index">
@@ -36,6 +36,7 @@
       </popup>
     </div>
 		<toast v-model="showPositionValue" type="text" :time="800" is-show-mask :text="err_msg" position="middle"></toast>
+		<loading :show="showLading" text="Loading"></loading>
 	</div>
 </template>
 <script>
@@ -57,6 +58,7 @@
 				show:false,
 				allItem:[],
 				url:'https://v.qq.com',
+				showLading:false,
 			}
 		},
 		methods: {
@@ -72,11 +74,12 @@
 				this.getQueryMovie(item.url);
 			},
 			showEveryItem(item){
-				this.show=true;
+				
 				console.log(item);
-				this.getQueryAllItem(item.href);
+				this.getQueryAllItem(item.href,item);
 			},
-			getQueryAllItem(url) {
+			getQueryAllItem(url,item) {
+				this.showLading=true;
 				//获取每一集
 				let info = {url:url};
 				queryAllItem(info).then(data => {
@@ -87,15 +90,29 @@
 						list
 					} = data;
 					if (err_code !== 0) {
+						this.showLading=false;
 						this.showPositionValue = true;
 						this.err_msg = err_msg;
 					} else {
 						console.log(list);
-						this.allItem = list;
+						if(list.length===0){
+							this.$router.push({
+								path:'/HelloWorld',
+								query:{
+									url:"https:"+item.href
+								}
+							});
+						}else{
+							this.allItem = list;
+							this.show=true;
+							this.showLading=false;
+						}
+						
 					}
 				});
 			},
 			getPlayerNav() {
+				this.showLading=true;
 				//获取分类
 				let info = {};
 				queryPlayerNav(info).then(data => {
@@ -106,17 +123,19 @@
 						list
 					} = data;
 					if (err_code !== 0) {
+						this.showLading=false;
 						this.showPositionValue = true;
 						this.err_msg = err_msg;
 					} else {
 						
 						this.playerNavList = list;
-						this.getQueryMovie(list[7].url);
+						this.getQueryMovie(list[0].url);
 						console.log(this.playerNavList);
 					}
 				});
 			},
 			getQueryMovie(url) {
+				this.showLading=true;
 				//获取播放列表
 				let info = {url:url};
 				queryMovie(info).then(data => {
@@ -127,11 +146,13 @@
 						list
 					} = data;
 					if (err_code !== 0) {
+						this.showLading=false;
 						this.showPositionValue = true;
 						this.err_msg = err_msg;
 					} else {
 						
 						this.playerMovieList = list;
+						this.showLading=false;
 						console.log(this.playerMovieList);
 					}
 				});
@@ -156,6 +177,7 @@
 			},
 		},
 		mounted() {
+			
 			this.getPlayerNav();
 			
 			

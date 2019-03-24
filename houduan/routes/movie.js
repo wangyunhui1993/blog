@@ -5,32 +5,46 @@ var $util = require("../util/util.js");
 var $err = require("../conf/errInfo.js");
 var checkAttr = require("./components/checkAttr.js");
 var UTFTranslate = require("./components/UTFTranslate.js");
-var baseUrl = 'https://v.qq.com';
+var baseUrl = 'https://m.v.qq.com';
 
 
 function callback(html) {
     //使用load方法，参数是刚才获取的html源代码数据
     var $ = cheerio.load(html);
     var arrUrl = [];
-    $('.list_item ').each(function(index, element) {
+    $('.list_item .open_video').each(function(index, element) {
+		
 		try{
-			let img=$(element).find(".figure_pic")[0].attribs.src;
-					let caption=$(element).find(".figure_caption").html();
-					let aEle=$(element).find(".figure_title")[0];
-					let href=aEle.attribs.href;
-					let title=aEle.attribs.title;
+			
+			let href=element.attribs.href;
+			
+			let img=$(element).find(".item_content img")[0].attribs.dsrc;
+					let caption=$(element).find(".item_count").html();
+					try{
+						caption=UTFTranslate.ReChange(caption);
+					}catch(e){
+						caption="";
+						//TODO handle the exception
+					}
+					
+					
+					let title=$(element).find(".item_title").html();
+					title=UTFTranslate.ReChange(title);
+
 			// 		console.log("图片",img);
 			// 		console.log("链接",href);
 			// 		console.log("标题",title);
 			// 		console.log("更新",UTFTranslate.ReChange(caption));
 					var item={
 						img:img,
-						caption:UTFTranslate.ReChange(caption),
+						caption:caption,
 						href:href,
 						title:title,
 					}
+					// console.log(item);
 			        arrUrl.push(item);
 		}catch(e){
+			console.log(e);
 			//TODO handle the exception
 		}
     });
@@ -42,20 +56,39 @@ function callback1(html) {
     //使用load方法，参数是刚才获取的html源代码数据
     var $ = cheerio.load(html);
     var arrUrl = [];
-    $('.mod_episode .item a').each(function(index, element) {
+    $('.mod_bd>.mod_episodes_numbers>._list>.item').each(function(index, element) {
+		console.log(index);
 		try{
-			let href=element.attribs.href;
-			let num=$(element).html();
+			let vid=element.attribs.vid;
+			let aEle=$(element).find(".U_color_b");
+			
+			let href=aEle[0].attribs.href;
+			let mark=aEle.find("i").html();  //获取会员或者预告
+			var num=aEle.html();
+			console.log('判断',mark);
+			if(mark && UTFTranslate.ReChange(mark)==='预'){
+			}else {
+				if(mark && UTFTranslate.ReChange(mark)==='会员'){
+					console.log("会员");
+					let ele=aEle;
+					ele.find("i").remove()
+					num = UTFTranslate.ReChange($(ele).html())
+					// console.log($(ele).html());
+				}
+					console.log("平常");
 					var item={
 						href:href,
 						num:num,
+						vid:vid
 					}
-			        arrUrl.push(item);
+					arrUrl.push(item);
+				}
 		}catch(e){
+			console.log(e);
 			//TODO handle the exception
 		}
     });
-	console.log(arrUrl);
+	// console.log(arrUrl);
 	return arrUrl;
 }
 
@@ -109,7 +142,7 @@ module.exports = {
       console.log('格式化后的参数', JSON.stringify(data));
       if(data){
       	// pool(res, function(connection) {
-      		var pageUrl = data.url;
+      		var pageUrl = "https:"+data.url;
       		https.get(pageUrl, function(httpsRes) {
       			console.log("获取网页");
       		    var html = '';
@@ -118,6 +151,7 @@ module.exports = {
       		    });
       		    httpsRes.on('end', function() {
       		        //数据获取完，执行回调函数
+					
       		        var result = callback1(html);
       				console.log('结果',result);
       				let resInfo = Object.assign ($err.code_0, {list: result});

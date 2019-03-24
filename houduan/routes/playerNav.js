@@ -44,7 +44,7 @@ module.exports = {
   },
   query: function(req, res, next) {
     pool(res, function(connection) {
-        let sql ='select * from playerNav';
+        let sql ='select * from mplayerNav';
         connection.query(sql, function(err, result) {
             //查询
             if (result) {
