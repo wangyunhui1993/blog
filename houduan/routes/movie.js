@@ -8,7 +8,7 @@ var UTFTranslate = require("./components/UTFTranslate.js");
 var baseUrl = 'https://m.v.qq.com';
 
 
-function callback(html) {
+function callback(html) {  //格式化电影列表
     //使用load方法，参数是刚才获取的html源代码数据
     var $ = cheerio.load(html);
     var arrUrl = [];
@@ -52,7 +52,7 @@ function callback(html) {
 }
 
 
-function callback1(html) {
+function callback1(html) {      //格式化剧集列表
     //使用load方法，参数是刚才获取的html源代码数据
     var $ = cheerio.load(html);
     var arrUrl = [];
@@ -92,6 +92,52 @@ function callback1(html) {
 	return arrUrl;
 }
 
+
+
+function callback2(html) {      //格式化搜索列表
+    //使用load方法，参数是刚才获取的html源代码数据
+    var $ = cheerio.load(html);
+    var arrUrl = [];
+    $('search_item>.figure').each(function(index, element) {
+		console.log(index);
+		try{
+			let href=aEle[0].attribs.href;
+			let img=$(element).find(".figure_pic .figure_pic_inner img")[0].attribs.dsrc;
+			let title=$(element).find(".figure_info .figure_head .figure_title");
+			title=UTFTranslate.ReChange(title);
+			
+			let vid=element.attribs.vid;
+			let aEle=$(element).find(".U_color_b");
+			
+			
+			let mark=aEle.find("i").html();  //获取会员或者预告
+			var num=aEle.html();
+			console.log('判断',mark);
+			if(mark && UTFTranslate.ReChange(mark)==='预'){
+			}else {
+				if(mark && UTFTranslate.ReChange(mark)==='会员'){
+					console.log("会员");
+					let ele=aEle;
+					ele.find("i").remove()
+					num = UTFTranslate.ReChange($(ele).html())
+					// console.log($(ele).html());
+				}
+					console.log("平常");
+					var item={
+						href:href,
+						num:num,
+						vid:vid
+					}
+					arrUrl.push(item);
+				}
+		}catch(e){
+			console.log(e);
+			//TODO handle the exception
+		}
+    });
+	// console.log(arrUrl);
+	return arrUrl;
+}
 
 module.exports = {
   query: function(req, res, next) {
@@ -160,6 +206,39 @@ module.exports = {
       		});
       	// });
       }
+  },
+  searchMovie:function(){
+	  // 获取前台页面传过来的参数
+	  var param = req.body;
+	  console.log('前台传来的参数', JSON.stringify(param));
+	  let paramNeedObj = {
+	  	keyWord: {
+	  		require: true,
+	  		name: "关键字",
+	  		code: "code_2"
+	  	},
+	  };
+	  var data = checkAttr(param, paramNeedObj, res);
+	  console.log('格式化后的参数', JSON.stringify(data));
+	  if(data){
+	  	// pool(res, function(connection) {
+	  		var pageUrl = baseUrl+"/search.html?keyWord="+data.keyWord;
+	  		https.get(pageUrl, function(httpsRes) {
+	  			console.log("获取网页");
+	  		    var html = '';
+	  		    httpsRes.on('data', function(data) {
+	  		        html += data;
+	  		    });
+	  		    httpsRes.on('end', function() {
+	  		        //数据获取完，执行回调函数
+	  		        var result = callback2(html);
+	  				console.log('结果',result);
+	  				let resInfo = Object.assign ($err.code_0, {list: result});
+	  				res.json (resInfo);
+	  		    });
+	  		});
+	  	// });
+	  }
   },
   
 };

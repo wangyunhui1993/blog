@@ -159,8 +159,11 @@ router.post('/query_allItem', function(req, res, next) {
 	console.log('查询所有集数');
 	movie.getPlayerList(req, res, next);
 });
-
-
+//搜索电影
+router.post('/search——movie', function(req, res, next) {
+	console.log('搜索电影');
+	movie.searchMovie(req, res, next);
+});
 
 
 
