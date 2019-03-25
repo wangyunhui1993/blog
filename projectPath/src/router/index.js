@@ -1,21 +1,30 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
-import Menu from '@/components/Menu'
+import Home from '@/components/Home'
+import Player from '@/components/Player'
+import Class from '@/components/Class'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
-	  {
-	    path: '/',
-	    name: 'Menu',
-	    component: Menu
-	  },
-    {
-      path: '/HelloWorld',
-      name: 'HelloWorld',
-      component: HelloWorld
-    }
+		{
+		  path: '/',
+		  name: 'home',
+		  component: Home,
+			children:[
+				 {
+				  path: '/class',
+				  name: 'class',
+				  component: Class
+				},
+				{
+				  path: '/player',
+				  name: 'player',
+				  component: Player
+				}
+			]
+		},
+	 
   ]
 })

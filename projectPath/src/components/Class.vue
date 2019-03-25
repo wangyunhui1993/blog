@@ -28,7 +28,7 @@
       <popup v-model="show" @on-hide="log('hide')" @on-show="log('show')">
         <div class="popup0">
          <grid :cols="8" :show-lr-borders="false">
-         				  <grid-item  v-for="(item, index) in allItem" :link="'#/HelloWorld?url='+url+item.href" :key="index">
+         				  <grid-item  v-for="(item, index) in allItem" :link="'#/Player?url='+url+item.href" :key="index">
          					<span class="grid-center">{{item.num}}</span>
          				  </grid-item>
          				</grid>
@@ -97,7 +97,7 @@
 						console.log(list);
 						if(list.length===0){
 							this.$router.push({
-								path:'/HelloWorld',
+								path:'/Player',
 								query:{
 									url:"https:"+item.href
 								}
@@ -191,7 +191,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 	.content{
-		height: 100vh;
+		/* height: 100vh; */
 	}
 	.weui-grid{
 		padding: 10px 10px;
