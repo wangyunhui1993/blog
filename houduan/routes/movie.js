@@ -98,38 +98,33 @@ function callback2(html) {      //格式化搜索列表
     //使用load方法，参数是刚才获取的html源代码数据
     var $ = cheerio.load(html);
     var arrUrl = [];
-    $('search_item>.figure').each(function(index, element) {
+    $('.search_result>.search_item>.figure').each(function(index, element) {
 		console.log(index);
 		try{
-			let href=aEle[0].attribs.href;
+			let href=element.attribs.href;
 			let img=$(element).find(".figure_pic .figure_pic_inner img")[0].attribs.dsrc;
-			let title=$(element).find(".figure_info .figure_head .figure_title");
-			title=UTFTranslate.ReChange(title);
-			
-			let vid=element.attribs.vid;
-			let aEle=$(element).find(".U_color_b");
-			
-			
-			let mark=aEle.find("i").html();  //获取会员或者预告
-			var num=aEle.html();
-			console.log('判断',mark);
-			if(mark && UTFTranslate.ReChange(mark)==='预'){
-			}else {
-				if(mark && UTFTranslate.ReChange(mark)==='会员'){
-					console.log("会员");
-					let ele=aEle;
-					ele.find("i").remove()
-					num = UTFTranslate.ReChange($(ele).html())
-					// console.log($(ele).html());
-				}
-					console.log("平常");
+			let figure=$(element).find(".figure_info .figure_head .figure_title");
+			let title=$(figure).find(".hl").remove().html();
+			let type=$(figure).html();
+			// title=UTFTranslate.ReChange(title);
+// 			if(mark && UTFTranslate.ReChange(mark)==='预'){
+// 			}else {
+// 				if(mark && UTFTranslate.ReChange(mark)==='会员'){
+// 					console.log("会员");
+// 					let ele=aEle;
+// 					ele.find("i").remove()
+// 					num = UTFTranslate.ReChange($(ele).html())
+// 					// console.log($(ele).html());
+// 				}
+// 					console.log("平常");
 					var item={
 						href:href,
-						num:num,
-						vid:vid
+						img:img,
+						title:title,
+						type:type
 					}
 					arrUrl.push(item);
-				}
+// 				}
 		}catch(e){
 			console.log(e);
 			//TODO handle the exception
@@ -207,7 +202,7 @@ module.exports = {
       	// });
       }
   },
-  searchMovie:function(){
+  searchMovie:function(req, res, next){
 	  // 获取前台页面传过来的参数
 	  var param = req.body;
 	  console.log('前台传来的参数', JSON.stringify(param));
@@ -222,7 +217,10 @@ module.exports = {
 	  console.log('格式化后的参数', JSON.stringify(data));
 	  if(data){
 	  	// pool(res, function(connection) {
-	  		var pageUrl = baseUrl+"/search.html?keyWord="+data.keyWord;
+	  		var pageUrl = baseUrl+"/search.html?keyWord="+encodeURI(data.keyWord);
+			
+			// var pageUrl="https://m.v.qq.com/search.html?keyWord=%E5%80%9A%E5%A4%A9%E5%B1%A0%E9%BE%99%E8%AE%B0"
+			// console.log("请求的地址：",pageUrl);
 	  		https.get(pageUrl, function(httpsRes) {
 	  			console.log("获取网页");
 	  		    var html = '';
