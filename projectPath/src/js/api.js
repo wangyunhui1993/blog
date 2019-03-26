@@ -15,3 +15,7 @@ export const queryMovie = params => { return axios.post(`${base}/query_movie`, p
 
 // 获取每一集列表
 export const queryAllItem = params => { return axios.post(`${base}/query_allItem`, params).then(res => res.data).catch(error=>error); };
+
+
+// 搜索
+export const searchMovie = params => { return axios.post(`${base}/search_movie`, params).then(res => res.data).catch(error=>error); };

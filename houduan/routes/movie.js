@@ -74,6 +74,11 @@ function callback1(html) {      //格式化剧集列表
 					ele.find("i").remove()
 					num = UTFTranslate.ReChange($(ele).html())
 					// console.log($(ele).html());
+				}else if(mark && UTFTranslate.ReChange(mark)==='新'){
+					console.log("新");
+					let ele=aEle;
+					ele.find("i").remove()
+					num = UTFTranslate.ReChange($(ele).html())
 				}
 					console.log("平常");
 					var item={
@@ -101,30 +106,74 @@ function callback2(html) {      //格式化搜索列表
     $('.search_result>.search_item>.figure').each(function(index, element) {
 		console.log(index);
 		try{
-			let href=element.attribs.href;
-			let img=$(element).find(".figure_pic .figure_pic_inner img")[0].attribs.dsrc;
-			let figure=$(element).find(".figure_info .figure_head .figure_title");
-			let title=$(figure).find(".hl").remove().html();
-			let type=$(figure).html();
-			// title=UTFTranslate.ReChange(title);
-// 			if(mark && UTFTranslate.ReChange(mark)==='预'){
-// 			}else {
-// 				if(mark && UTFTranslate.ReChange(mark)==='会员'){
-// 					console.log("会员");
-// 					let ele=aEle;
-// 					ele.find("i").remove()
-// 					num = UTFTranslate.ReChange($(ele).html())
-// 					// console.log($(ele).html());
+// 			let href=element.attribs.href;
+// 			let img=$(element).find(".figure_pic .figure_pic_inner img")[0].attribs.src;
+// 			let figure=$(element).find(".figure_info .figure_head .figure_title");
+// 			let title=$(figure).find(".hl").remove().html();
+// 			title=UTFTranslate.ReChange(title);
+// 			let type=$(figure).html();
+// 			type=UTFTranslate.ReChange(type);
+// 			if(type && type.indexOf('电视剧')>-1){
+// 				var item={
+// 					href:href,
+// 					img:img,
+// 					title:title,
+// 					type:type,
+// 					state:'tv'
 // 				}
-// 					console.log("平常");
+// 				arrUrl.push(item);
+// 			}else if(type && type.indexOf('电影')>-1){
+// 					var item={
+// 						href:href,
+// 						img:img,
+// 						title:title,
+// 						type:type,
+// 						state:'movie'
+// 					}
+// 					arrUrl.push(item);
+
+
+
+
+			let href=element.attribs.href;
+			let img=$(element).find(".figure_pic .figure_pic_inner img")[0].attribs.src;
+			let figure=$(element).find(".figure_info .figure_head .figure_title");
+			
+			let copyfigure=$(element).clone();
+			
+			let title=$(copyfigure).find(".hl").remove().html();
+			title=UTFTranslate.ReChange(title);
+			
+			title=$(figure).html().replace(/\<span.*span\>/,title)
+			console.log(title)
+// 			let type=$(copyfigure).html();
+			title=UTFTranslate.ReChange(title);
+			if(title && title.indexOf('电视剧')>-1){
+				var item={
+					href:href,
+					img:img,
+					title:title,
+				}
+				arrUrl.push(item);
+			}else if(title && title.indexOf('电影')>-1){
 					var item={
 						href:href,
 						img:img,
 						title:title,
-						type:type
 					}
 					arrUrl.push(item);
-// 				}
+
+
+
+
+
+
+
+
+
+
+
+				}
 		}catch(e){
 			console.log(e);
 			//TODO handle the exception
@@ -184,6 +233,7 @@ module.exports = {
       if(data){
       	// pool(res, function(connection) {
       		var pageUrl = "https:"+data.url;
+			console.log("请求的地址",pageUrl);
       		https.get(pageUrl, function(httpsRes) {
       			console.log("获取网页");
       		    var html = '';
