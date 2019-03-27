@@ -1,11 +1,15 @@
 <template>
 	<section>
-		<router-view class="contenter"></router-view>
+		<div  class="contenter">
+			<router-view></router-view>
+			<CopyRight></CopyRight>
+		</div>
 		<tabbar-select></tabbar-select>
 	</section>
 </template>
 <script>
 	import Tabbar from '@/components/TabBar'
+	import CopyRight from '@/components/CopyRight'
 	import {
 		queryPlayerNav,
 		queryMovie,
@@ -13,7 +17,8 @@
 	} from "../js/api"
 	export default {
 		components: {
-		  'tabbar-select': Tabbar
+		  'tabbar-select': Tabbar,
+		  'CopyRight': CopyRight
 		},
 		name: 'Home',
 		data() {
