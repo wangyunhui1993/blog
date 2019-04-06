@@ -39,5 +39,6 @@
 	.contenter{
 		overflow-y: auto;
 		height: calc(100vh - 53px);
+		-webkit-overflow-scrolling: touch;
 	}
 </style>

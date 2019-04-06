@@ -153,4 +153,7 @@
 		width: auto;
 		height: auto;
 	}
+	.vux-popup-dialog{
+		z-index:99999 !important;
+	}
 </style>
