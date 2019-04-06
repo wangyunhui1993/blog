@@ -144,11 +144,13 @@
 	padding-bottom:15px;
 	height:200px;
 	}
-</style>
-<style>
 	.movieList{
 		padding-top: 45px;
+		min-height: calc(100vh - 200px);
 	}
+</style>
+<style>
+	
 	.movieList .weui-grid__icon{
 		width: auto;
 		height: auto;
