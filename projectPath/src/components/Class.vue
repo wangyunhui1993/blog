@@ -214,7 +214,7 @@
 		width: auto;
 		height: auto;
 	}
-	.vux-popup-dialog{
+	/* .vux-popup-dialog{    //会导致弹出层不能点击
 		z-index:99999 !important;
-	}
+	} */
 </style>

@@ -50,8 +50,12 @@ module.exports = {
             if (result) {
                 let resInfo = Object.assign ($err.code_0, {list: result});
 				res.json (resInfo);
+				// 释放连接
+				connection.release();
             } else {
                 res.json(err);
+				// 释放连接
+				connection.release();
             }
         });
     });
