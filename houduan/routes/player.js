@@ -94,11 +94,17 @@ module.exports = {
 							connection.release();
 						} else {
 							res.json(err);
+							// 释放连接
+							connection.release();
 						}
+						
 					});
 				} else {
 					res.json(err);
+					// 释放连接
+					connection.release();
 				}
+				
 			});
 		});
 	},

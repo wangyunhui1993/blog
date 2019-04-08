@@ -29,11 +29,11 @@ module.exports = {
                     if (row) {
                         console.log(row);
                         res.json(row);
-                        // 释放连接
-                        connection.release();
                     } else {
                         res.json(err);
                     }
+					// 释放连接
+					connection.release();
                 });
                 });
             } else {
@@ -53,6 +53,8 @@ module.exports = {
             } else {
                 res.json(err);
             }
+			// 释放连接
+			connection.release();
         });
     });
   },

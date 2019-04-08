@@ -2,9 +2,18 @@
 	<section class="contentSearch">
 		<div>
 			<search  v-model="searchValue" position="absolute"
-			   @on-cancel="onCancel" @on-submit="onSubmit" ref="search" placeholder="请输入电影或电视剧名称"></search>
+			   @on-cancel="onCancel" :auto-fixed="false" @on-submit="onSubmit" @on-focus="onFocus" @on-blur="onBlur" ref="search" placeholder="请输入电影或电视剧名称"></search>
 		</div>
+		
 		<div class="movieList">
+			<div v-if="showSearchRecord && searchRecordList.length" class="searchRecord">
+				<div style="font-size:12px">
+					历史记录
+				</div>
+				<div>
+					<badge v-for="(item,index) in searchRecordList" :key="index" :text="item" class="searchRecordList" @click.native="clickSearchRecord(item)"></badge>
+				</div>
+			</div>
 			   <grid :cols="2">
 		  <grid-item :label="item.title" style="position: relative;"  @click.native="showEveryItem(item)"   v-for="(item, index) in searchList" :key="index">
 			  <div class="caption">{{item.type}}</div>
@@ -32,6 +41,9 @@
 		searchMovie,
 		queryAllItem
 	} from "../js/api"
+	import {
+		LStorage
+	} from "../js/Storage"
 	export default {
 		name: 'TabBar',
 		data() {
@@ -44,14 +56,37 @@
 				show:false,
 				allItem:[],
 				url:'https://v.qq.com',
+				searchRecordList:[],
+				showSearchRecord:true,
 			}
 		},
 		methods: {
+			onBlur(){
+				this.showSearchRecord=false;
+			},
+			clickSearchRecord(val){
+				this.getSearchMovie(val);
+			},
+			onFocus(){
+				this.showSearchRecord=true;
+				this.searchRecordList = LStorage.getItem('searchRecord') || [];
+			},
+			setLStorage(val){
+				let searchRecord= LStorage.getItem('searchRecord');
+				if(searchRecord instanceof Array){
+					searchRecord.unshift(val);
+					searchRecord=[...new Set(searchRecord)];
+				}else{
+					searchRecord=[val];
+				}
+				LStorage.setItem('searchRecord',searchRecord);
+			},
 			 log (str) {
 			  console.log(str)
 			},
 			onSubmit() {
 				this.getSearchMovie(this.searchValue.trim());
+				this.setLStorage(this.searchValue.trim());
 			},
 			onCancel() {
 				console.log('on cancel')
@@ -121,7 +156,7 @@
 		},
 
 		mounted() {
-
+			this.searchRecordList = LStorage.getItem('searchRecord') || [];
 		},
 		created() {
 
@@ -145,8 +180,8 @@
 	height:200px;
 	}
 	.movieList{
-		padding-top: 45px;
-		min-height: calc(100vh - 200px);
+		padding-top: 0;
+		min-height: calc(100vh - 155px);
 	}
 </style>
 <style>
@@ -154,5 +189,14 @@
 	.movieList .weui-grid__icon{
 		width: auto;
 		height: auto;
+	}
+	.searchRecord{
+		padding: 10px;
+	}
+	.searchRecord .searchRecordList{
+		background: #ececec;
+		color: #333;
+		padding: 5px 10px;
+		margin: 0 5px;
 	}
 </style>

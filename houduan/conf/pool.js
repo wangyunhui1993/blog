@@ -6,6 +6,7 @@ var $err = require('./errInfo.js');
 //使用连接池
 var pool = mysql.createPool($util.extend({}, $conf.mysql));
 module.exports = function(res,callback){
+	try{
 		pool.getConnection(function(err,connection) {
 			if(connection){
 				callback(connection);
@@ -14,6 +15,10 @@ module.exports = function(res,callback){
 				res.json(resInfo);
 			}
 		});
+	}catch(e){
+		res.json(e);
+	}
+		
 	}
 
 

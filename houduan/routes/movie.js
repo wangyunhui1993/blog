@@ -13,24 +13,18 @@ function callback(html) {  //格式化电影列表
     var $ = cheerio.load(html);
     var arrUrl = [];
     $('.list_item .open_video').each(function(index, element) {
-		
 		try{
-			
 			let href=element.attribs.href;
-			
 			let img=$(element).find(".item_content img")[0].attribs.dsrc;
 					let caption=$(element).find(".item_count").html();
 					try{
 						caption=UTFTranslate.ReChange(caption);
 					}catch(e){
+						console.log(e)
 						caption="";
-						//TODO handle the exception
 					}
-					
-					
 					let title=$(element).find(".item_title").html();
 					title=UTFTranslate.ReChange(title);
-
 			// 		console.log("图片",img);
 			// 		console.log("链接",href);
 			// 		console.log("标题",title);
@@ -41,11 +35,9 @@ function callback(html) {  //格式化电影列表
 						href:href,
 						title:title,
 					}
-					// console.log(item);
 			        arrUrl.push(item);
 		}catch(e){
 			console.log(e);
-			//TODO handle the exception
 		}
     });
 	return arrUrl;
