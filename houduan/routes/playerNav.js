@@ -57,8 +57,6 @@ module.exports = {
 				// 释放连接
 				connection.release();
             }
-			// 释放连接
-			connection.release();
         });
     });
   },

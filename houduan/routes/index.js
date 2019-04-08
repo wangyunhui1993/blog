@@ -31,9 +31,9 @@ var user = require('./user.js');
 var blog = require('./blog.js');
 var robot = require('./robot.js');
 var player = require('./player.js');
-var playerNav = require('./playerNav.js');
+var playerNav = require('./playerNav.js'); 
 var movie = require('./movie.js');
-
+var cnblogs = require('./cnblogs.js');
 
 var uploadFiles = require('./components/uploadFiles.js');
 /* GET home page. */
@@ -118,6 +118,22 @@ router.post('/blog_edit', function(req, res, next) {
 
 
 
+//查询博客园文章
+router.post('/cnblogs_query', function(req, res, next) {
+	console.log('查询博客园文章');
+	cnblogs.query(req, res, next);
+});
+//查询博客园文章详情
+router.post('/cnblogs_detail', function(req, res, next) {
+	console.log('查询博客园文章详情');
+	cnblogs.queryDetail(req, res, next);
+});
+
+
+
+
+
+
 //机器人聊天
 router.get('/robot', function(req, res, next) {
 	console.log('机器人聊天');
@@ -164,6 +180,8 @@ router.post('/search_movie', function(req, res, next) {
 	console.log('搜索电影');
 	movie.searchMovie(req, res, next);
 });
+
+
 
 
 

@@ -142,9 +142,11 @@ function genuuid() {
 var server = app.listen(3000, function () {
   var host = server.address().address
   var port = server.address().port
-  console.log("应用实例，访问地址为 http://%s:%s", host, port)
+  console.log("应用实例监听端口号：", port)
  
 })
 
 
-module.exports = app;
+
+
+// module.exports = app;   //这是 4.x 默认的配置，分离了 app 模块,将它注释即可，上线时可以重新改回来
