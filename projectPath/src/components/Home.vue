@@ -41,9 +41,9 @@
 
 </style>
 <style>
-	.contenter{
+	.contenter{     
 		overflow-y: auto;
 		height: calc(100vh - 53px);
-		-webkit-overflow-scrolling: touch;
+		/* -webkit-overflow-scrolling: touch;   //会导致弹出层不能点击 */
 	}
 </style>

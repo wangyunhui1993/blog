@@ -13,6 +13,7 @@
 			</group>
 		</div>
 		<div>
+			<div>（如果不能播放，请切换接口或者切换线路）</div>
 			<iframe ref="iframe" width="100%" height="400px" frameborder="0"></iframe>
 		</div>
 		<toast v-model="showPositionValue" type="text" :time="800" is-show-mask :text="err_msg" position="middle"></toast>

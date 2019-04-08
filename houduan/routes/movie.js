@@ -137,35 +137,46 @@ function callback2(html) {      //格式化搜索列表
 			title=UTFTranslate.ReChange(title);
 			
 			title=$(figure).html().replace(/\<span.*span\>/,title)
-			console.log(title)
+			
 // 			let type=$(copyfigure).html();
 			title=UTFTranslate.ReChange(title);
-			if(title && title.indexOf('电视剧')>-1){
-				var item={
-					href:href,
-					img:img,
-					title:title,
-				}
-				arrUrl.push(item);
-			}else if(title && title.indexOf('电影')>-1){
+			console.log(title);
+			var typeList=['电视剧','电影','动漫','少儿','综艺'];
+			for(var item of typeList){
+				if(title && title.indexOf(item)>-1){
 					var item={
 						href:href,
 						img:img,
 						title:title,
 					}
 					arrUrl.push(item);
-
-
-
-
-
-
-
-
-
-
-
+					break;
 				}
+			}
+			
+// 			if(title && title.indexOf('电视剧')>-1){
+// 				var item={
+// 					href:href,
+// 					img:img,
+// 					title:title,
+// 				}
+// 				arrUrl.push(item);
+// 			}else if(title && title.indexOf('电影')>-1){
+// 					var item={
+// 						href:href,
+// 						img:img,
+// 						title:title,
+// 					}
+// 					arrUrl.push(item);
+// 				}else if(title && title.indexOf('动漫')>-1){
+// 					var item={
+// 						href:href,
+// 						img:img,
+// 						title:title,
+// 					}
+// 					arrUrl.push(item);
+// 				}
+				
 		}catch(e){
 			console.log(e);
 			//TODO handle the exception
