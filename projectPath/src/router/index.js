@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '@/components/Home'
+// import Home from '@/components/Home'
 import Player from '@/components/Player'
 import Class from '@/components/Class'
 import Search from '@/components/Search'
@@ -15,7 +15,7 @@ export default new Router({
 		{
 		  path: '/',
 		  name: 'home',
-		  component: Home,
+		  component: () => import('@/components/Home'),
 			isTabBar:true,
 			children:[
 				 {
@@ -38,6 +38,5 @@ export default new Router({
 				}
 			]
 		},
-	 
   ]
 })
