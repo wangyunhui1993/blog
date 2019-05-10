@@ -32,9 +32,10 @@ module.exports = {
 			    });
 			    httpsRes.on('end', function() {
 			        //数据获取完，执行回调函数
-			        var result = callback(html);
+			        let result = callback(html);
 					console.log('结果',result);
-					let resInfo = Object.assign ($err.code_0, {list: result});
+					var resInfo={};
+					resInfo = Object.assign ({},$err.code_0, {list: result});
 					res.json (resInfo);
 			    });
 			});
@@ -64,11 +65,9 @@ module.exports = {
 	  		    });
 	  		    httpsRes.on('end', function() {
 	  		        //数据获取完，执行回调函数
-// 	  		        var result = callback(html);
-// 	  				console.log('结果',result);
-// 	  				let resInfo = Object.assign ($err.code_0, {list: result});
-
-					let resInfo = Object.assign ($err.code_0, {list: html});
+	  		        let result = callback1(html);
+					var resInfo={};
+					resInfo = Object.assign ({},$err.code_0, {info: result});
 	  				res.json (resInfo);
 	  		    });
 	  		});
@@ -76,20 +75,6 @@ module.exports = {
   },
   }
 
-
-
-
-
-// https.get(pageUrl, function(res) {
-// 	var html = '';
-// 	res.on('data', function(data) {
-// 		html += data;
-// 	});
-// 	res.on('end', function() {
-// 		//数据获取完，执行回调函数
-// 		callback(html);
-// 	});
-// });
 
 
 var UTFTranslate = {
@@ -139,31 +124,31 @@ function callback(html) {
 	});
 	console.log(titleList);
 	return titleList;
-// 	$('.postCon .c_b_p_desc').each(function(index, element) {
-// 		try{
-// 			let c = $(element).find(".c_b_p_desc_readmore").remove();
-// 			var content=UTFTranslate.ReChange($(element).html());
-// 			var item = {
-// 				content: content,
-// 			}
-// 			contentList.push(item);
-// 		}catch(e){
-// 			//TODO handle the exception
-// 			console.log(e);
-// 		}
-// 	});
-// 	$('.postDesc').each(function(index, element) {
-// 		try{
-// 			let c = $(element).find("a").remove();
-// 			var desc=UTFTranslate.ReChange($(element).html());
-// 			var item = {
-// 				desc: desc,
-// 			}
-// 			postDesc.push(item);
-// 		}catch(e){
-// 			//TODO handle the exception
-// 			console.log(e);
-// 		}
-// 		
-// 	});
+}
+
+
+function callback1(html) {
+	//使用load方法，参数是刚才获取的html源代码数据
+	var $ = cheerio.load(html,{
+		xml: {
+      normalizeWhitespace: true,
+	  decodeEntities :true 
+    }
+	});
+	
+	var title = UTFTranslate.ReChange($("#cb_post_title_url").html()); //标题
+	var content=UTFTranslate.ReChange($("#cnblogs_post_body").html());//内容
+	var view=$("#post_view_count").html();//阅读量
+	var comment=$("#post_comment_count").html();//评论量
+	var date=$("#post-date").html();//发表时间
+	var info={
+		title:title,
+		content:content,
+		view:view,
+		comment:comment,
+		date:date,
+		html:html
+	}
+	console.log(info);
+	return info;
 }
