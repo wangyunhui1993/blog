@@ -104,6 +104,16 @@ router.post('/blog_detail', function(req, res, next) {
 	console.log('查询文章');
 	blog.detail(req, res, next);
 });
+//查询文章前5点击量
+router.post('/blog_click', function(req, res, next) {
+	console.log('查询文章前5点击量');
+	blog.queryClick(req, res, next);
+});
+//查询文章前8最新
+router.post('/blog_new', function(req, res, next) {
+	console.log('查询文章前8最新');
+	blog.queryNew(req, res, next);
+});
 //删除文章（假删除，更改状态为0）
 router.post('/blog_delete', function(req, res, next) {
 	console.log('删除文章');

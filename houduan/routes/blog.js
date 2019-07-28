@@ -6,7 +6,6 @@ var mysql = require('mysql');
 var $conf = require('../conf/db.js');
 var $util = require('../util/util.js');
 var $err = require('../conf/errInfo.js');
-var $util = require('../util/util.js');
 var checkAttr = require('./components/checkAttr.js');
 //使用连接池
 var pool = mysql.createPool($util.extend({}, $conf.mysql));
@@ -39,7 +38,8 @@ module.exports = {
 							require: true,
 							name: '文章标题',
 							code: 'code_4',
-							isEmpty: false
+							isEmpty: false,
+							
 						},
 						article_content: {
 							require: true,
@@ -55,20 +55,20 @@ module.exports = {
 						connection.query(sql, data, function(err, result) {
 							//插入
 							if (result) {
-								console.log(result);
 								// 以json形式，把操作结果返回给前台页面
 								res.json($err.code_0);
-								// 释放连接
-								connection.release();
 							} else {
 								res.json(err);
 							}
+ 							// 释放连接
+							connection.release();
 						});
 					}
 					}else{
 						let resInfo = $err.code_13;
-						console.log(resInfo);
 						res.json(resInfo);
+						// 释放连接
+						connection.release();
 					}
 
 		});
@@ -86,7 +86,7 @@ module.exports = {
 						require: true,
 						name: '每页大小',
 						code: 'code_6'
-					},
+					},  
 					pageNum: {
 						require: true,
 						name: '页数',
@@ -96,10 +96,11 @@ module.exports = {
 				var data = checkAttr(param, paramNeedObj, res);
 				if (data) {
 					let sql =
-						'select article_id,article_name,article_time from article limit ' +
+						'select article_id,article_click,article_content,article_name, date_format(article_time, "%Y-%m-%d %H:%i") article_time FROM article limit ' +
 						(data.pageNum - 1) * data.pageSize +
 						',' +
 						data.pageSize;
+						console.log('查询条件',sql)
 					connection.query(sql, function(err, result) {
 						//查询
 						if (result) {
@@ -131,19 +132,62 @@ module.exports = {
 				let resInfo = $err.code_13;
 				console.log(resInfo);
 				res.json(resInfo);
-			}
-			
-			
-			
-			
+			}	
 		});
 	},
-// 	if(connection){
-// 		}else{
-// 			let resInfo = $err.code_13;
-// 			console.log(resInfo);
-// 			res.json(resInfo);
-// 		}
+	// 查询点击排行榜前五
+	queryClick: function(req, res, next) {
+		pool.getConnection(function(err, connection) {
+			if(connection){
+					let sql ='select article_id,article_name from article order by article_click desc limit 0,5';
+					connection.query(sql, function(err, result) {
+						//查询
+						if (result) {
+									// 以json形式，把操作结果返回给前台页面
+									let resInfo = Object.assign({},$err.code_0, {
+										list: result
+									});
+									res.json(resInfo);
+									// 释放连接
+									connection.release();
+						} else {
+							res.json(err);
+						}
+					});
+			}else{
+				let resInfo = $err.code_13;
+				console.log(resInfo);
+				res.json(resInfo);
+			}	
+		});
+	},
+		// 查询最新排行榜前8
+	queryNew: function(req, res, next) {
+		pool.getConnection(function(err, connection) {
+			if(connection){
+					let sql ='select article_id,article_name from article order by article_time desc limit 0,8';
+					connection.query(sql, function(err, result) {
+						//查询
+						if (result) {
+									// 以json形式，把操作结果返回给前台页面
+									let resInfo = Object.assign({},$err.code_0, {
+										list: result
+									});
+									res.json(resInfo);
+									// 释放连接
+									connection.release();
+						} else {
+							res.json(err);
+						}
+					});
+			}else{
+				let resInfo = $err.code_13;
+				console.log(resInfo);
+				res.json(resInfo);
+			}	
+		});
+	},
+
 	
 	detail: function(req, res, next) {
 		pool.getConnection(function(err, connection) {
@@ -172,6 +216,7 @@ module.exports = {
 								let resInfo = Object.assign($err.code_11, {});
 								res.json(resInfo);
 							} else {
+								connection.query("update article set article_click=article_click+1 where article_id ="+data.article_id)
 								// 以json形式，把操作结果返回给前台页面
 								let resInfo = Object.assign($err.code_0, {
 									detail: result[0]
