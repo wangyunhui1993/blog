@@ -34,7 +34,7 @@ var player = require('./player.js');
 var playerNav = require('./playerNav.js'); 
 var movie = require('./movie.js');
 var cnblogs = require('./cnblogs.js');
-
+var stay_message = require('./stay_message.js');
 var uploadFiles = require('./components/uploadFiles.js');
 /* GET home page. */
 //进入主页面信息
@@ -190,6 +190,21 @@ router.post('/search_movie', function(req, res, next) {
 	console.log('搜索电影');
 	movie.searchMovie(req, res, next);
 });
+
+
+//发表留言
+router.post('/issue_message', function(req, res, next) {
+	console.log('发表留言');
+	stay_message.create(req, res, next);
+});
+//查询留言
+router.post('/query_message', function(req, res, next) {
+	console.log('查询留言');
+	stay_message.query(req, res, next);
+});
+
+
+
 
 
 
