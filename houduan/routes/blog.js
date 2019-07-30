@@ -6,6 +6,7 @@ var mysql = require('mysql');
 var $conf = require('../conf/db.js');
 var $util = require('../util/util.js');
 var $err = require('../conf/errInfo.js');
+var cheerio = require('cheerio');
 var checkAttr = require('./components/checkAttr.js');
 //使用连接池
 var pool = mysql.createPool($util.extend({}, $conf.mysql));
@@ -96,7 +97,7 @@ module.exports = {
 				var data = checkAttr(param, paramNeedObj, res);
 				if (data) {
 					let sql =
-						'select article_id,article_click,article_content,article_name, date_format(article_time, "%Y-%m-%d %H:%i") article_time FROM article limit ' +
+						'select article_id,article_click,article_content,article_name, date_format(article_time, "%Y-%m-%d %H:%i") article_time FROM article order by article_time desc limit ' +
 						(data.pageNum - 1) * data.pageSize +
 						',' +
 						data.pageSize;
@@ -104,7 +105,11 @@ module.exports = {
 					connection.query(sql, function(err, result) {
 						//查询
 						if (result) {
-							connection.query('select found_rows()', function(
+							for(var item of result){
+								let $ = cheerio.load(item.article_content);
+								item.article_content = $.text().substring(0,120)+'......'
+							}
+							connection.query('select COUNT(*) FROM article', function(
 								err,
 								result_count
 							) {
@@ -112,10 +117,10 @@ module.exports = {
 								if (result_count) {
 									console.log(result_count);
 									// 以json形式，把操作结果返回给前台页面
-									let resInfo = Object.assign($err.code_0, {
+									let resInfo = Object.assign({},$err.code_0, {
 										list: result
 									});
-									resInfo.total = result_count[0]['found_rows()'];
+									resInfo.total = result_count[0]['COUNT(*)'];
 									res.json(resInfo);
 									// 释放连接
 									connection.release();
@@ -165,7 +170,7 @@ module.exports = {
 	queryNew: function(req, res, next) {
 		pool.getConnection(function(err, connection) {
 			if(connection){
-					let sql ='select article_id,article_name from article order by article_time desc limit 0,8';
+					let sql ='select article_id,article_name,article_time from article order by article_time desc limit 0,8';
 					connection.query(sql, function(err, result) {
 						//查询
 						if (result) {
@@ -213,12 +218,12 @@ module.exports = {
 						if (result) {
 							console.log(result);
 							if (result.length === 0) {
-								let resInfo = Object.assign($err.code_11, {});
+								let resInfo = Object.assign({},$err.code_11, {});
 								res.json(resInfo);
 							} else {
 								connection.query("update article set article_click=article_click+1 where article_id ="+data.article_id)
 								// 以json形式，把操作结果返回给前台页面
-								let resInfo = Object.assign($err.code_0, {
+								let resInfo = Object.assign({},$err.code_0, {
 									detail: result[0]
 								});
 								res.json(resInfo);
@@ -265,7 +270,7 @@ module.exports = {
 							if (result) {
 								console.log(result);
 								if (result.length === 0) {
-									let resInfo = Object.assign($err.code_11, {});
+									let resInfo = Object.assign({},$err.code_11, {});
 									res.json(resInfo);
 								} else {
 									let sql = 'UPDATE article SET article_state = 0  WHERE article_id =' + data.article_id;
@@ -274,7 +279,7 @@ module.exports = {
 										if (result) {
 											console.log(result);
 											// 以json形式，把操作结果返回给前台页面
-											let resInfo = Object.assign($err.code_0, {});
+											let resInfo = Object.assign({},$err.code_0, {});
 											res.json(resInfo);
 											// 释放连接 
 											connection.release();
@@ -335,7 +340,7 @@ module.exports = {
 							if (result) {
 								console.log(result);
 								if (result.length === 0) {
-									let resInfo = Object.assign($err.code_11, {});
+									let resInfo = Object.assign({},$err.code_11, {});
 									res.json(resInfo);
 								} else {
 									let sql = 'UPDATE article SET ? WHERE article_id =' + data.article_id;
@@ -344,7 +349,7 @@ module.exports = {
 										if (result) {
 											console.log(result);
 											// 以json形式，把操作结果返回给前台页面
-											let resInfo = Object.assign($err.code_0, {});
+											let resInfo = Object.assign({},$err.code_0, {});
 											res.json(resInfo);
 											// 释放连接 
 											connection.release();

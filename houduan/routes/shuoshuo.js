@@ -22,7 +22,7 @@ var jsonWrite = function(res, ret, err) {
 };
 
 module.exports = {
-	//发表留言
+	//发表说说
 	create: function(req, res, next) {
 		pool.getConnection(function(err, connection) {
 				if(connection){
@@ -31,25 +31,23 @@ module.exports = {
 					console.log('req.body', req.body);
 					// 建立连接，向表中插入值
 					let paramNeedObj = {
-						message_content: {
+						shuoshuo: {
 							require: true, 
-							name: '留言内容',
+							name: '说说内容',
 							code: 'code_4',
 							isEmpty: false,
-							
 						},
-						user_name: {
-							require: true,
-							name: '留言用户名',
-							code: 'code_5',
-							isEmpty: false
+						cover: {
+							require: true, 
+							name: '封面',
+							code: 'code_4',
+							isEmpty: true,
 						},
 					};
 					var data = checkAttr(param, paramNeedObj, res);
 					if (data) {
-						data.message_stay_time = new Date();
-						data.stay_user_ip = req.ip;
-						let sql = 'INSERT INTO stay_message SET  ?';
+						data.shuo_time = new Date();
+						let sql = 'INSERT INTO shuoshuo SET  ?';
 						connection.query(sql, data, function(err, result) {
 							//插入
 							if (result) {
@@ -76,12 +74,29 @@ module.exports = {
 	query: function(req, res, next) {
 		pool.getConnection(function(err, connection) {
 			if(connection){
+				// 获取前台页面传过来的参数
+				var param = req.body;
+				// 建立连接，向表中插入值
+				let paramNeedObj = {
+					pageSize: {
+						require: true,
+						name: '每页大小',
+						code: 'code_6'
+					},  
+					pageNum: {
+						require: true,
+						name: '页数',
+						code: 'code_7'
+					},
+				};
+				var data = checkAttr(param, paramNeedObj, res);
+				if(data){
 					let sql =
-						'select stay_id,user_name,message_content, date_format(message_stay_time, "%Y-%m-%d %H:%i") message_stay_time FROM stay_message order by message_stay_time desc';
+						'select shuo_id,shuoshuo,cover, date_format(shuo_time, "%Y-%m-%d %H:%i") shuo_time FROM shuoshuo order by shuo_time desc limit ' +(data.pageNum - 1) * data.pageSize +',' + data.pageSize;
 					connection.query(sql, function(err, result) {
 						//查询
 						if (result) {
-							connection.query('select found_rows()', function(
+							connection.query('select COUNT(*) FROM shuoshuo', function(
 								err,
 								result_count
 							) {
@@ -92,7 +107,7 @@ module.exports = {
 									let resInfo = Object.assign({},$err.code_0, {
 										list: result
 									});
-									resInfo.total = result_count[0]['found_rows()'];
+									resInfo.total = result_count[0]['COUNT(*)'];
 									res.json(resInfo);
 									// 释放连接
 									connection.release();
@@ -104,6 +119,7 @@ module.exports = {
 							res.json(err);
 						}
 					});
+					}
 			}else{
 				let resInfo = $err.code_13;
 				console.log(resInfo);

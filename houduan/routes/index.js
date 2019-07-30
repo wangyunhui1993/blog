@@ -35,6 +35,7 @@ var playerNav = require('./playerNav.js');
 var movie = require('./movie.js');
 var cnblogs = require('./cnblogs.js');
 var stay_message = require('./stay_message.js');
+var shuoshuo = require('./shuoshuo.js');
 var uploadFiles = require('./components/uploadFiles.js');
 /* GET home page. */
 //进入主页面信息
@@ -201,6 +202,18 @@ router.post('/issue_message', function(req, res, next) {
 router.post('/query_message', function(req, res, next) {
 	console.log('查询留言');
 	stay_message.query(req, res, next);
+});
+
+
+//发表说说
+router.post('/issue_shuoshuo', function(req, res, next) {
+	console.log('发表说说');
+	shuoshuo.create(req, res, next);
+});
+//查询说说
+router.post('/query_shuoshuo', function(req, res, next) {
+	console.log('查询说说');
+	shuoshuo.query(req, res, next);
 });
 
 
