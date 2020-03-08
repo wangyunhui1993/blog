@@ -14,7 +14,7 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
-    "axios": "^0.16.2",
+    "axios": "^0.19.2",
     "fontawesome": "^4.7.0",
     "mint-ui": "^2.2.9",
     "swiper": "^3.4.2",
