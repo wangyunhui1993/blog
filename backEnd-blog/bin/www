@@ -1,0 +1,160 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+var app = require('../app');
+// var debug = require('debug')('projectName:server');
+var http = require('http');
+var https = require('https');
+let fs = require('fs');
+var path = require('path');
+
+
+//根据项目的路径导入生成的证书文件
+var privateKey  = fs.readFileSync(path.join(__dirname, '../https/3560322_neo123.cn.key'), 'utf8');
+var certificate = fs.readFileSync(path.join(__dirname, '../https/3560322_neo123.cn.crt'), 'utf8');
+var credentials = {key: privateKey, cert: certificate};
+
+
+//可以分别设置http、https的访问端口号
+var PORT = 3000;
+var SSLPORT = 3001;
+// var port = normalizePort(process.env.PORT || PORT);   //http端口
+// app.set('port', port);
+
+/**
+ * Create HTTP server.
+ */
+var httpServer = http.createServer(app);
+var httpsServer = https.createServer(credentials, app);
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+//创建http服务器
+
+httpServer.listen(PORT, function() {
+  console.log('HTTP Server is running on: http://localhost:%s', PORT);
+});
+
+//创建https服务器
+httpsServer.listen(SSLPORT, function() {
+  console.log('HTTPS Server is running on: https://localhost:%s', SSLPORT);
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// httpServer.listen(port);
+// httpServer.on('error', onError);
+// httpServer.on('listening', onListening);
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+}
