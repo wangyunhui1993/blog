@@ -1,5 +1,5 @@
 {
-  "name": "projectName",
+  "name": "neo_service",
   "version": "0.0.0",
   "private": true,
   "scripts": {
